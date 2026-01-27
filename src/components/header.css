@@ -1,0 +1,10 @@
+.header {
+  text-align: center;
+}
+
+.header div {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  justify-content: space-evenly;
+}
