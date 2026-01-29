@@ -1,0 +1,34 @@
+.registerParent {
+  background-color: #ffffff;
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  margin: 2rem auto;
+}
+
+.registerForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.registerInput {
+  display: flex;
+  flex-direction: column;
+}
+
+.registerInput input {
+  margin: 1rem 0;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.alreadyLoggedIn {
+  font-size: small;
+}
+
+.loginLink {
+  text-decoration: none;
+  color: #4F8EF7;
+}
