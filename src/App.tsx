@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/header/header';
 import Footer from './components/footer';
 import RegisterPage from './pages/register/register';
-import { LoginForm } from './components/auth/login';
+import LoginPage from './pages/login/login';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginForm />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </main>
       <Footer />

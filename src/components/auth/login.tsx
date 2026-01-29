@@ -58,7 +58,7 @@ export function LoginForm() {
   return (
     <div>
       {!isSuccess ? (
-        <form onSubmit={handleSubmit}>
+        <form className="loginInput" onSubmit={handleSubmit}>
       <input  
         type="email"  
         name="email"
