@@ -1,6 +1,18 @@
 .footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
   background-color: #4F8EF7;
   color: #EBEEF4;
-  height: 5rem;
+  height: auto;
   width: 100vw;
+}
+
+.footer ul {
+  list-style: none;
+}
+
+.footer i {
+  margin: 0 4px;
 }

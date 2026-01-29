@@ -5,29 +5,30 @@ body, #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #F5F3EF;
 }
 
-:root {
-  --font-primary: 'Poppins', sans-serif;
-  --font-secondary: 'Inter', sans-serif;
-  --font-tertiary: 'Inter', sans-serif;
-
-  --fw-regular: 400;
-  --fw-medium: 500;
-
-  --fs-small: 0.875rem;
-  --fs-medium: 1rem;
-  --fs-large: 1.25rem;
+#root {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
 }
 
 h1 {
-  font-family: var(--font-primary);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
 }
 
 h2 {
-  font-family: var(--font-secondary);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
 }
 
 p {
-  font-family: var(--font-tertiary);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+h1, h2, p {
+  margin: 0;
 }

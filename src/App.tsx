@@ -1,6 +1,6 @@
 import './App.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import Header from './components/header';
+import Header from './components/header/header';
 import Footer from './components/footer';
 
 function App() {
