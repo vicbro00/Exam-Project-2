@@ -29,6 +29,11 @@
   margin: 0;
 }
 
+.nav-links li a {
+  text-decoration: none;
+  color: inherit;
+}
+
 @media (min-width: 768px) {
   .navbar ul {
     display: flex;

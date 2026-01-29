@@ -1,6 +1,9 @@
 import Hamburger from './hamburger';
+import { Link } from 'react-router-dom';
 import './navbar.css';
 import { useState } from 'react';
+import { isVenueManager, isLoggedIn } from '../../services/auth';
+import Logout from '../auth/logout';
 
 export default function Navbar() {
 
@@ -9,15 +12,32 @@ export default function Navbar() {
     setHamburgerOpen(!hamburgerOpen);
   }
 
+  const venueManager = isVenueManager();
+  const loggedIn = isLoggedIn();
+
   return (
     <div>
       <div className="navbar">
         <ul className={`nav-links ${hamburgerOpen ? "open" : ""}`}>
-          <li>Venues</li>
-          <li>My bookings</li>
-          <li>Dashboard</li>
-          <li>Profile</li>
-          <li>Log out</li>
+          <li>
+            <Link to="/venue">Venues</Link>
+          </li>
+          {venueManager ? (
+            <>
+              <li><Link to="/venue-manager-dashboard">Dashboard</Link></li>
+              <li><Link to="/profile">Profile</Link></li>
+            </>
+          ) : loggedIn ? (
+            <>
+              <li><Link to="/customer-dashboard">Dashboard</Link></li>
+              <li><Link to="/profile">Profile</Link></li>
+            </>
+          ) : null}
+          {loggedIn && (
+            <li>
+              <Logout />
+            </li>
+          )}
         </ul>
         <div className="hamburger" onClick={toggleHamburger}>
           <Hamburger />

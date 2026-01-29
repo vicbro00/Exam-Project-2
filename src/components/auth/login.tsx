@@ -39,15 +39,33 @@ export function LoginForm() {
           },
           body: JSON.stringify(formData)
         });
+        
         const data = await response.json();
         if (!response.ok) {
           setError(data.errors[0].message);
           return;
         } 
         console.log("Login successful:", data);
+
         localStorage.setItem("accessToken", data.data.accessToken);
         localStorage.setItem("userName", data.data.name);
         localStorage.setItem("userEmail", data.data.email);
+
+        try {
+          const profileResponse = await fetch(`${API_BASE_URL}/holidaze/venues?owner=${data.data.name}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${data.data.accessToken}`
+            }
+          });
+          const profileData = await profileResponse.json();
+          localStorage.setItem("venueManager", profileData.data.length > 0 ? "true" : "false");
+          console.log("Profile data fetched:", profileData);
+        } catch (profileError) {
+          console.error("Error fetching profile data:", profileError);
+        }
+
         navigate("/");
         setIsSuccess(true);
         setFormData({ email: "", password: "" });

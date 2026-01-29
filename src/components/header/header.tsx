@@ -1,6 +1,7 @@
 import './header.css';
 import Navbar from './navbar.tsx';
 import Profile from '../auth/profile.tsx';
+import { isLoggedIn } from '../../services/auth';
 
 function Header() {
   return (
@@ -14,8 +15,8 @@ function Header() {
       </div>
       <div className='spacer'></div>
       <div className='d-none d-md-block'>
-          <Profile />
-        </div>
+        {isLoggedIn() && <Profile />}
+      </div>
     </header>
   );
 }
