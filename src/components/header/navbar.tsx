@@ -20,7 +20,7 @@ export default function Navbar() {
       <div className="navbar">
         <ul className={`nav-links ${hamburgerOpen ? "open" : ""}`}>
           <li>
-            <Link to="/venue">Venues</Link>
+            <Link to="/">Venues</Link>
           </li>
           {venueManager ? (
             <>
