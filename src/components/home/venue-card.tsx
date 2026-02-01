@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './venue-card.css';
 
 type VenueProps = {
@@ -28,30 +28,45 @@ export default function VenueCard({
   location,
   variant = 'list',
 }: VenueProps) {
+  const navigate = useNavigate();
   return (
-    <div className={`venue-card ${variant}`}>
+    <div className={`venue-card ${variant} d-flex flex-wrap gap-4 m-5 justify-content-center`}>
+        <h2 className="venue-title">{name}</h2>
+      
       {media && media.length > 0 && (
-        <img src={media[0].url} alt={media[0].alt || name} className="venue-image" />
+        <img src={media[0].url} alt={media[0].alt || name} />
       )}
 
-      <h2>{name}</h2>
+      <div className='venue-box'>
+        {variant === 'detail' && description && <p>{description}</p>}
 
-      {variant === 'detail' && description && <p>{description}</p>}
+        {location && (<div className="venue-location-rating">
+          <div>
+          {location.address && <p>Address: {location.address}</p>}
+          {location.city && <p>City: {location.city}</p>}
+          {location.country && <p>Country: {location.country}</p>}
+          </div>
 
-      {location && (
-        <p>
-          {location.city && `${location.city}, `}{location.country}
-        </p>
-      )}
+          {rating !== undefined && (
+            <div className="venue-rating">
+              <i className="bi bi-star-fill"></i>
+              <span>{rating.toFixed(1)}</span>
+            </div>
+          )}
+        </div>
+        )}
 
-      {price !== undefined && <p>Price: ${price}</p>}
-      {maxGuests !== undefined && <p>Max Guests: {maxGuests}</p>}
-      {rating !== undefined && <p>Rating: {rating}</p>}
+        {price !== undefined && <p>Price: ${price}</p>}
+        {maxGuests !== undefined && <p>Max Guests: {maxGuests}</p>}
+      </div>
 
       {variant === 'list' && (
-        <Link to={`/venues/${id}`} className="details-link">
-          View Details
-        </Link>
+        <button
+          className="details-button"
+          onClick={() => navigate(`/venues/${id}`)}
+        >
+          View Venue
+        </button>
       )}
     </div>
   );

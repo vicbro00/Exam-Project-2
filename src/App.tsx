@@ -6,7 +6,7 @@ import Footer from './components/footer';
 import RegisterPage from './pages/register/register';
 import LoginPage from './pages/login/login';
 import VenuesPage from './pages/venues/venues';
-import VenuesDetails from './pages/venues-details/venues-details';
+import VenuesDetails from './pages/venues-details/venues-details'; 
 
 function App() {
   return (

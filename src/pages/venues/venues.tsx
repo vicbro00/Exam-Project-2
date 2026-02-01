@@ -25,7 +25,7 @@ export default function Venues() {
   if (loading) return <p>Loading venues...</p>;
 
   return (
-    <div className="venue-list">
+    <div>
       {venues.map(venue => (
         <VenueCard key={venue.id} {...venue} name={venue.name} variant="list" />
       ))}
