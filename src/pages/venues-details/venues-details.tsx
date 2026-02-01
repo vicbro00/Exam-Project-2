@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { API_BASE_URL } from '../../services/api';
 import VenueCard from '../../components/home/venue-card';
+import VenueCalendar from '../../components/venue/calendar';
+import './venues-details.css';
 
 interface VenueLocation {
   address?: string;
@@ -42,5 +44,8 @@ export default function VenueDetailsPage() {
   if (loading) return <p>Loading venue...</p>;
   if (!venue) return <p>Venue not found</p>;
 
-  return <VenueCard {...venue} variant="detail" />;
+  return <div>
+      <VenueCard {...venue} variant="detail" />
+      <VenueCalendar />
+    </div>
 }
