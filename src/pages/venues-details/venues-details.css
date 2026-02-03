@@ -1,3 +1,7 @@
+.venue-calendar-container {
+  text-align: center;
+}
+
 .react-calendar {
   width: 100%;
   max-width: 500px;
@@ -31,6 +35,15 @@
 .react-calendar__tile--active {
   background-color: #1F2937 !important;
   color: white;
+}
+
+.react-calendar__navigation {
+  background-color: #1F2937;
+}
+
+.react-calendar__navigation__label {
+  display: flex;
+  justify-content: center;
 }
 
 .available-dot {
@@ -69,4 +82,14 @@
 
 .legend.dot.booked {
   background-color: #F44336;
+}
+
+form button {
+  display: flex;
+  margin: 2rem auto;
+}
+
+.customer-booking {
+  text-align: center;
+  margin: 2rem 0;
 }

@@ -1,12 +1,12 @@
 import './App.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './components/header/header';
-import Footer from './components/footer';
-import RegisterPage from './pages/register/register';
-import LoginPage from './pages/login/login';
+import Header from './components/header/Header';
+import Footer from './components/Footer';
+import RegisterPage from './pages/register/Register';
+import LoginPage from './pages/login/Login';
 import VenuesPage from './pages/venues/venues';
-import VenuesDetails from './pages/venues-details/venues-details'; 
+import VenuesDetails from './pages/venues-details/VenuesDetails'; 
 
 function App() {
   return (

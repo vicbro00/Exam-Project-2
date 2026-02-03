@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { API_BASE_URL } from '../../services/api';
-import VenueCard from '../../components/home/venue-card';
+import VenueCard from '../../components/home/VenueCard';
 
 interface Venue {
   id: string;

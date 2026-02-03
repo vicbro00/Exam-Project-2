@@ -1,9 +1,9 @@
-import Hamburger from './hamburger';
+import Hamburger from './Hamburger';
 import { Link } from 'react-router-dom';
 import './navbar.css';
 import { useState } from 'react';
 import { isVenueManager, isLoggedIn } from '../../services/auth';
-import Logout from '../auth/logout';
+import Logout from '../auth/Logout';
 
 export default function Navbar() {
 

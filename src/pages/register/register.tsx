@@ -1,4 +1,4 @@
-import { RegisterForm } from '../../components/auth/register';
+import { RegisterForm } from '../../components/auth/Register.tsx';
 import { Link } from 'react-router-dom';
 import './register.css';
 

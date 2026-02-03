@@ -1,4 +1,4 @@
-import { LoginForm } from '../../components/auth/login';
+import { LoginForm } from '../../components/auth/Login';
 import { Link } from 'react-router-dom';
 import './login.css';
 
