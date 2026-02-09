@@ -24,12 +24,12 @@ export default function Navbar() {
           </li>
           {venueManager ? (
             <>
-              <li><Link to="/venue-manager-dashboard">Dashboard</Link></li>
+              <li><Link to="/venueManagerDashboard">Dashboard</Link></li>
               <li><Link to="/profile">Profile</Link></li>
             </>
           ) : loggedIn ? (
             <>
-              <li><Link to="/customer-dashboard">Dashboard</Link></li>
+              <li><Link to="/customerDashboard">Dashboard</Link></li>
               <li><Link to="/profile">Profile</Link></li>
             </>
           ) : null}

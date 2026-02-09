@@ -6,7 +6,9 @@ import Footer from './components/Footer';
 import RegisterPage from './pages/register/Register';
 import LoginPage from './pages/login/Login';
 import VenuesPage from './pages/venues/venues';
-import VenuesDetails from './pages/venues-details/VenuesDetails'; 
+import VenuesDetails from './pages/venues-details/VenuesDetails';
+import CustomerDashboard from './pages/customer-dashboard/CustomerDashboard';
+import VenueManagerDashboard from './pages/venue-manager-dashboard/VenueManagerDashboard';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/venues/:id" element={<VenuesDetails />} />
+          <Route path="/customerDashboard" element={<CustomerDashboard />} />
+          <Route path="/venueManagerDashboard" element={<VenueManagerDashboard />} />
         </Routes>
       </main>
       <Footer />

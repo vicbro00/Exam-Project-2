@@ -1,0 +1,13 @@
+.bookings-list {
+  list-style: none;
+}
+
+.booking-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-container img {
+  width: 50%;
+}
