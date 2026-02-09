@@ -9,6 +9,7 @@ import VenuesPage from './pages/venues/venues';
 import VenuesDetails from './pages/venues-details/VenuesDetails';
 import CustomerDashboard from './pages/customer-dashboard/CustomerDashboard';
 import VenueManagerDashboard from './pages/venue-manager-dashboard/VenueManagerDashboard';
+import Profile from './pages/profile/Profile';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/venues/:id" element={<VenuesDetails />} />
           <Route path="/customerDashboard" element={<CustomerDashboard />} />
           <Route path="/venueManagerDashboard" element={<VenueManagerDashboard />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </main>
       <Footer />

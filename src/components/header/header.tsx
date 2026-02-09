@@ -1,6 +1,6 @@
 import './header.css';
 import Navbar from './NavBar.tsx';
-import Profile from '../auth/Profile.tsx';
+import Profile from '../header/Profile.tsx';
 import { isLoggedIn } from '../../services/auth.ts';
 
 function Header() {
