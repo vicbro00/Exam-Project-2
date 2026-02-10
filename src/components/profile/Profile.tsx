@@ -8,7 +8,6 @@ export interface ProfileData {
   bio?: string;
   avatar?: { url: string; alt: string };
   banner?: { url: string; alt: string };
-  venueManager: boolean;
 }
 
 interface ProfileProps {
@@ -89,21 +88,14 @@ export default function Profile({ profile }: ProfileProps) {
           <h1>{currentProfile.name}</h1>
           <p>{currentProfile.email}</p>
           {currentProfile.bio && <p>{currentProfile.bio}</p>}
+          <p>Username: {currentProfile.name}</p>
 
-          {/* Account info */}
-          <div className="profile-account">
-            <p>
-              Username: {currentProfile.name}
-            </p>
-            <p>
-              Account Type:{" "}{currentProfile.venueManager ? "Venue Manager" : "Customer"}
-            </p>
-          </div>
+          <button onClick={() => setIsEditing(true)}>Edit Profile</button>
+        </div>
 
           {/* Edit button */}
           <button onClick={() => setIsEditing(true)}>Edit Profile</button>
         </div>
       </div>
-    </div>
   );
 }

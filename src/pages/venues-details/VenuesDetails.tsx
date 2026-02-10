@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { API_BASE_URL } from '../../services/api';
 import VenueCard from '../../components/home/VenueCard';
-import VenueCalendar from '../../components/venue/calendar';
+import VenueCalendar from '../../components/venue/Calendar';
 import CustomerBooking from '../../components/venue/CustomerBooking';
 import './venues-details.css';
 

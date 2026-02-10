@@ -9,6 +9,8 @@ export function RegisterForm() {
     password: ""
   });
 
+  const [userType, setUserType] = useState("customer");
+
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
 
@@ -23,13 +25,24 @@ export function RegisterForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.email.endsWith("@stud.noroff.no")) {
+      setError("You must register with a stud.noroff.no email");
+      return;
+    }
+
       try {
         const response = await fetch(`${API_BASE_URL}${REGISTER_ENDPOINT}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify(formData)
+          body: JSON.stringify({ 
+            name: formData.name, 
+            email: formData.email, 
+            password: formData.password,
+            venueManager: userType === "venueManager"
+          })
         });
 
         const data = await response.json();
@@ -38,7 +51,6 @@ export function RegisterForm() {
           setError(data.errors[0].message);
           return;
         }
-        console.log("Registration successful:", data);
         setIsSuccess(true);
         setFormData({ name: "", email: "", password: "" });
       } catch (error) {
@@ -50,6 +62,7 @@ export function RegisterForm() {
     <div>
       {!isSuccess ? (
         <form className="registerInput" onSubmit={handleSubmit}>
+      {/* Name */}
       <input
         type="text"
         name="name"
@@ -57,6 +70,7 @@ export function RegisterForm() {
         value={formData.name}
         onChange={handleChange}
       />
+      {/* Email */}
       <input
         type="email"
         name="email"
@@ -64,6 +78,7 @@ export function RegisterForm() {
         value={formData.email}
         onChange={handleChange}
       />
+      {/* Password */}
       <input
         type="password"
         name="password"
@@ -71,6 +86,11 @@ export function RegisterForm() {
         value={formData.password}
         onChange={handleChange}
       />
+       {/* User Type */}
+      <select value={userType} onChange={(e) => setUserType(e.target.value)}>
+        <option value="customer">Customer</option>
+        <option value="venueManager">Venue Manager</option>
+      </select>
       <button type="submit">Register</button>
     </form>
       ) : (

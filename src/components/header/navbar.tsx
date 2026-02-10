@@ -22,23 +22,36 @@ export default function Navbar() {
           <li>
             <Link to="/">Venues</Link>
           </li>
-          {venueManager ? (
+
+          {loggedIn ? (
+            // If logged in, show dashboards and profile
+            venueManager ? (
+              <>
+                <li><Link to="/venueManagerDashboard">Dashboard</Link></li>
+                <li><Link to="/profile">Profile</Link></li>
+              </>
+            ) : (
+              <>
+                <li><Link to="/customerDashboard">Dashboard</Link></li>
+                <li><Link to="/profile">Profile</Link></li>
+              </>
+            )
+          ) : (
+            // If not logged in, show login and register
             <>
-              <li><Link to="/venueManagerDashboard">Dashboard</Link></li>
-              <li><Link to="/profile">Profile</Link></li>
+              <li><Link to="/login">Login</Link></li>
+              <li><Link to="/register">Register</Link></li>
             </>
-          ) : loggedIn ? (
-            <>
-              <li><Link to="/customerDashboard">Dashboard</Link></li>
-              <li><Link to="/profile">Profile</Link></li>
-            </>
-          ) : null}
+          )}
+
+          {/* Logout button only shows if logged in */}
           {loggedIn && (
             <li>
               <Logout />
             </li>
           )}
         </ul>
+
         <div className="hamburger" onClick={toggleHamburger}>
           <Hamburger />
         </div>

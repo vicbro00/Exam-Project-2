@@ -5,7 +5,7 @@ import Header from './components/header/Header';
 import Footer from './components/Footer';
 import RegisterPage from './pages/register/Register';
 import LoginPage from './pages/login/Login';
-import VenuesPage from './pages/venues/venues';
+import VenuesPage from './pages/venues/Venues';
 import VenuesDetails from './pages/venues-details/VenuesDetails';
 import CustomerDashboard from './pages/customer-dashboard/CustomerDashboard';
 import VenueManagerDashboard from './pages/venue-manager-dashboard/VenueManagerDashboard';

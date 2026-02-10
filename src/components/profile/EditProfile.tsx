@@ -8,13 +8,26 @@ interface EditProfileProps {
 }
 
 export default function EditProfile({ profile, onSave, onCancel }: EditProfileProps) {
+  const [bannerUrl, setBannerUrl] = useState(profile.banner?.url || "");
+  const [avatarUrl, setAvatarUrl] = useState(profile.avatar?.url || "");
   const [name, setName] = useState(profile.name);
   const [email, setEmail] = useState(profile.email);
   const [bio, setBio] = useState(profile.bio || "");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ ...profile, name, email, bio });
+    onSave({
+      ...profile,
+      name,
+      email,
+      bio,
+      avatar: avatarUrl
+        ? { url: avatarUrl, alt: `${name}'s avatar` }
+        : undefined,
+      banner: bannerUrl
+        ? { url: bannerUrl, alt: `${name}'s banner` }
+        : undefined,
+    });
   };
 
   return (
@@ -25,6 +38,20 @@ export default function EditProfile({ profile, onSave, onCancel }: EditProfilePr
       <label>
         Name:
         <input value={name} onChange={(e) => setName(e.target.value)} />
+      </label>
+
+      {/* Banner URL */}
+      {bannerUrl && <img src={bannerUrl} alt="Banner preview" />}
+      <label>
+        Banner URL:
+        <input value={bannerUrl} onChange={(e) => setBannerUrl(e.target.value)} />
+      </label>
+
+      {/* Avatar URL */}
+      {avatarUrl && <img src={avatarUrl} alt="Avatar preview" />}
+      <label>
+        Avatar URL:
+        <input value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} />
       </label>
 
       {/* Email */}
