@@ -1,0 +1,44 @@
+.venue-search {
+  margin: 2em auto;
+  display: flex;
+  background-color: #4F8EF7;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 40px;
+}
+
+input::placeholder {
+  color: white;
+}
+
+.search-wrapper {
+  position: relative;
+  max-width: 400px;
+  margin: 2em auto;
+}
+
+.filter-icon {
+  position: absolute;
+  right: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: white;
+}
+
+.filter-dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background-color: #4F8EF7;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  z-index: 100;
+}
+
+.filter-dropdown option, select {
+  background-color: #4F8EF7;
+  color: white;
+}

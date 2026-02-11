@@ -15,6 +15,17 @@ export default function Navbar() {
   const venueManager = isVenueManager();
   const loggedIn = isLoggedIn();
 
+  const handleClickOutside = (event: MouseEvent) => {
+    const navLinks = document.querySelector('.nav-links');
+    const hamburger = document.querySelector('.hamburger');
+    if (navLinks && hamburger && !navLinks.contains(event.target as Node) && !hamburger.contains(event.target as Node)) {
+      setHamburgerOpen(false);
+    }
+  };
+
+  // Closes hamburger when clicking outside
+  document.addEventListener('click', handleClickOutside);
+
   return (
     <div>
       <div className="navbar">

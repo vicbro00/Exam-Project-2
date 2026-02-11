@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { API_BASE_URL } from '../../services/api';
 import VenueCard from '../../components/home/VenueCard';
-import Search from '../../components/home/search';
+import Search from '../../components/home/Search';
+import './venues.css';
 
 interface Venue {
   id: string;
   name: string;
+  price: number
+  rating: number;
   [key: string]: unknown;
 }
 
@@ -13,6 +16,7 @@ export default function Venues() {
   const [venues, setVenues] = useState<Venue[]>([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     async function fetchVenues() {
@@ -24,15 +28,22 @@ export default function Venues() {
     fetchVenues();
   }, []);
 
-  const filteredVenues = venues.filter((venue) =>
+  const filteredVenues = venues
+  .filter((venue) =>
     venue.name.toLowerCase().includes(search.toLowerCase())
-  );
+  )
+  .sort((a, b) => {
+    if (filter === "price-low") return a.price - b.price;
+    if (filter === "price-high") return b.price - a.price;
+    if (filter === "rating") return b.rating - a.rating;
+    return 0;
+  });
 
   if (loading) return <p>Loading venues...</p>;
 
   return (
     <div>
-      <Search value={search} onChange={setSearch} />
+      <Search value={search} onChange={setSearch} filter={filter} onFilterChange={setFilter} />
 
       {filteredVenues.length === 0 && <p>No venues found.</p>}
 
