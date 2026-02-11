@@ -1,10 +1,17 @@
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 export default function Logout() {
+
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("venueManager");
     localStorage.removeItem("userName");
     localStorage.removeItem("userEmail");
-    window.location.href = "/";
+    toast.success("You have successfully logged out!");
+    navigate("/");
   };
 
   return (

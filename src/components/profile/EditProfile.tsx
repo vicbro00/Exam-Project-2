@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ProfileData } from "./Profile";
+import { toast } from 'react-toastify';
 
 interface EditProfileProps {
   profile: ProfileData;
@@ -28,6 +29,7 @@ export default function EditProfile({ profile, onSave, onCancel }: EditProfilePr
         ? { url: bannerUrl, alt: `${name}'s banner` }
         : undefined,
     });
+    toast.success("Profile updated successfully!");
   };
 
   return (

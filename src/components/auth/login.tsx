@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { API_BASE_URL, LOGIN_ENDPOINT } from "../../services/api";
+import { toast } from "react-toastify";
 
 export function LoginForm() {
   const [formData, setFormData] = useState({
@@ -45,11 +46,12 @@ export function LoginForm() {
           setError(data.errors[0].message);
           return;
         } 
-        console.log("Login successful:", data);
 
         localStorage.setItem("accessToken", data.data.accessToken);
         localStorage.setItem("userName", data.data.name);
         localStorage.setItem("userEmail", data.data.email);
+
+        toast.success("Login successful!");
 
         try {
           const profileResponse = await fetch(`${API_BASE_URL}/holidaze/venues?owner=${data.data.name}`, {
@@ -61,7 +63,6 @@ export function LoginForm() {
           });
           const profileData = await profileResponse.json();
           localStorage.setItem("venueManager", profileData.data.length > 0 ? "true" : "false");
-          console.log("Profile data fetched:", profileData);
         } catch (profileError) {
           console.error("Error fetching profile data:", profileError);
         }

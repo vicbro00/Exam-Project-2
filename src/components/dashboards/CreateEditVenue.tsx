@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { getToken, getApiKey } from '../../services/auth';
+import { toast } from 'react-toastify';
 
 interface Venue {
   id?: string;
@@ -109,7 +110,7 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
         throw new Error(data.errors?.[0]?.message || 'Failed to save venue');
       }
 
-      alert(`Venue ${isEditing ? 'updated' : 'created'} successfully!`);
+      toast.success(`Venue ${isEditing ? 'updated' : 'created'} successfully!`);
       onSuccess();
       onClose();
       

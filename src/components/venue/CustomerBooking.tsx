@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { isVenueManager, getToken, getApiKey } from '../../services/auth';
+import { toast } from 'react-toastify';
 
 interface CustomerBookingProps {
   venueId: string;
@@ -81,9 +82,11 @@ export default function CustomerBooking({
     } catch (err) {
       console.error('Booking error:', err);
       setError(err instanceof Error ? err.message : 'Could not create booking. Please try logging in again.');
+      toast.error(err instanceof Error ? err.message : 'Could not create booking. Please try logging in again.');
     } finally {
       setLoading(false);
     }
+    toast.success('Booking confirmed 🎉');
   }
 
   return (

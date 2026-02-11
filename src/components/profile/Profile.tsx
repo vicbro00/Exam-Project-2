@@ -1,6 +1,7 @@
 import { useState } from "react";
 import EditProfile from "./EditProfile";
 import { API_BASE_URL } from "../../services/api";
+import { toast } from 'react-toastify';
 
 export interface ProfileData {
   name: string;
@@ -24,7 +25,7 @@ export default function Profile({ profile }: ProfileProps) {
       const userName = localStorage.getItem("userName");
 
       if (!token || !userName) {
-        alert("You must be logged in to update your profile");
+        toast.error("You must be logged in to update your profile");
         return;
       }
 
@@ -38,14 +39,16 @@ export default function Profile({ profile }: ProfileProps) {
         body: JSON.stringify(updatedProfile),
       });
 
-      if (!res.ok) throw new Error("Failed to update profile");
+      if (!res.ok) {
+        toast.error("Failed to update profile");
+      }
 
       const data = await res.json();
       setCurrentProfile(data.data);
       setIsEditing(false);
     } catch (err) {
       console.error(err);
-      alert(err instanceof Error ? err.message : "An error occurred");
+      toast.error(err instanceof Error ? err.message : "An error occurred");
     }
   };
 

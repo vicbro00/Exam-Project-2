@@ -1,6 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { API_BASE_URL, REGISTER_ENDPOINT } from "../../services/api";
+import { toast } from "react-toastify";
 
 export function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -49,13 +50,15 @@ export function RegisterForm() {
 
         if (!response.ok) {
           setError(data.errors[0].message);
+          toast.error(data.errors[0].message);
           return;
         }
         setIsSuccess(true);
         setFormData({ name: "", email: "", password: "" });
       } catch (error) {
         console.error("Error during registration:", error);
-      }
+        toast.error("An error occurred during registration. Please try again.");
+      } toast.success("Registration successful! You can now log in.")
     };
 
   return (

@@ -44,3 +44,13 @@ button {
   width: fit-content;
   align-self: center;
 }
+
+/*Toast style*/
+.Toastify__toast {
+  background: white;
+  color: #4F8EF7;
+}
+
+.Toastify__progress-bar {
+  background: #4F8EF7;
+}

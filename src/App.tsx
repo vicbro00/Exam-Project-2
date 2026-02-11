@@ -1,5 +1,6 @@
 import './App.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { ToastContainer } from 'react-toastify';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/header/Header';
 import Footer from './components/Footer';
@@ -25,6 +26,14 @@ function App() {
           <Route path="/venueManagerDashboard" element={<VenueManagerDashboard />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
+        <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            theme="light"
+          />
       </main>
       <Footer />
     </BrowserRouter>

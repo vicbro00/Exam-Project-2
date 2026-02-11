@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import '../../pages/venues-details/venues-details.css'
+import { toast } from 'react-toastify';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -38,6 +39,7 @@ export default function VenueCalendar({ venueId, onDateSelect }: VenueCalendarPr
           setBookedDates(dates);
         }
       } catch (error) {
+        toast.error('Error fetching bookings');
         console.error('Error fetching bookings:', error);
       } finally {
         setLoading(false);
