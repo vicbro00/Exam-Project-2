@@ -123,107 +123,137 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        
-        {/* Header */}
-        <div className="modal-header">
-          <h2>{isEditing ? 'Edit Venue' : 'Create New Venue'}</h2>
-          <button className="btn-close" onClick={onClose}>×</button>
+  <div className="venue-overlay" onClick={onClose}>
+    <div className="venue-container" onClick={(e) => e.stopPropagation()}>
+      
+      {/* Header */}
+      <div className="venue-header">
+        <h2>{isEditing ? 'Edit Venue' : 'Create New Venue'}</h2>
+        <button className="btn-close" onClick={onClose}>×</button>
+      </div>
+
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="venue-form">
+
+        {/* Basic Info */}
+        <div className="form-section">
+          <h3>Basic Information</h3>
+
+          <label>
+            Venue Name *
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </label>
+
+          <label>
+            Description *
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows={4}
+              required
+            />
+          </label>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="venue-form">
-          
-          {/* Basic Info */}
-          <input
-            type="text"
-            name="name"
-            placeholder="Venue Name *"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-
-          <textarea
-            name="description"
-            placeholder="Description *"
-            value={formData.description}
-            onChange={handleChange}
-            rows={4}
-            required
-          />
-
-          {/* Price & Guests */}
-          <div className="form-row">
+        {/* Price & Guests */}
+        <div className="form-section form-row">
+          <label>
+            Price per Night *
             <input
               type="number"
               name="price"
-              placeholder="Price per Night *"
               value={formData.price}
               onChange={handleChange}
               min="0"
               required
             />
+          </label>
+
+          <label>
+            Max Guests *
             <input
               type="number"
               name="maxGuests"
-              placeholder="Max Guests *"
               value={formData.maxGuests}
               onChange={handleChange}
               min="1"
               required
             />
-          </div>
+          </label>
+        </div>
 
-          {/* Image */}
-          <input
-            type="url"
-            name="mediaUrl"
-            placeholder="Image URL"
-            value={formData.mediaUrl}
-            onChange={handleChange}
-          />
+        {/* Image */}
+        <div className="form-section">
+          <h3>Image</h3>
 
-          <input
-            type="text"
-            name="mediaAlt"
-            placeholder="Image Description"
-            value={formData.mediaAlt}
-            onChange={handleChange}
-          />
+          <label>
+            Image URL
+            <input
+              type="url"
+              name="mediaUrl"
+              value={formData.mediaUrl}
+              onChange={handleChange}
+            />
+          </label>
 
-          {/* Location */}
+          <label>
+            Image Description
+            <input
+              type="text"
+              name="mediaAlt"
+              value={formData.mediaAlt}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
+
+        {/* Location */}
+        <div className="form-section">
           <h3>Location</h3>
-          
-          <input
-            type="text"
-            name="address"
-            placeholder="Address"
-            value={formData.address}
-            onChange={handleChange}
-          />
+
+          <label>
+            Address
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+            />
+          </label>
 
           <div className="form-row">
-            <input
-              type="text"
-              name="city"
-              placeholder="City"
-              value={formData.city}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              name="country"
-              placeholder="Country"
-              value={formData.country}
-              onChange={handleChange}
-            />
-          </div>
+            <label>
+              City
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+              />
+            </label>
 
-          {/* Amenities */}
+            <label>
+              Country
+              <input
+                type="text"
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
+        </div>
+
+        {/* Amenities */}
+        <div className="form-section">
           <h3>Amenities</h3>
-          
           <div className="amenities-checkboxes">
             {['wifi', 'parking', 'breakfast', 'pets'].map((amenity) => (
               <label key={amenity} className="checkbox-label">
@@ -237,20 +267,22 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
               </label>
             ))}
           </div>
+        </div>
 
-          {error && <p className="error">{error}</p>}
+        {/* Error */}
+        {error && <p className="error">{error}</p>}
 
-          {/* Actions */}
-          <div className="form-actions">
-            <button type="button" className="btn-cancel" onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit" className="btn-submit" disabled={loading}>
-              {loading ? 'Saving...' : isEditing ? 'Update Venue' : 'Create Venue'}
-            </button>
-          </div>
-        </form>
-      </div>
+        {/* Actions */}
+        <div className="form-actions">
+          <button type="button" className="btn-cancel" onClick={onClose}>
+            Cancel
+          </button>
+          <button type="submit" className="btn-submit" disabled={loading}>
+            {loading ? 'Saving...' : isEditing ? 'Update Venue' : 'Create Venue'}
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
   );
 }

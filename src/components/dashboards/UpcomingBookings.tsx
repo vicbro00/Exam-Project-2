@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getToken, getApiKey } from '../../services/auth';
 
 interface Booking {
@@ -62,10 +63,18 @@ function filterUpcomingBookings(bookings: Booking[]): Booking[] {
 
 // Booking item component for customer view
 function CustomerBookingItem({ booking }: { booking: Booking }) {
+  const navigate = useNavigate();
   const venueImage = booking.venue?.media?.[0];
-  
+
+  const handleViewVenue = () => {
+    if (booking.venue?.id) {
+      navigate(`/venues/${booking.venue.id}`);
+    }
+  };
+
   return (
     <li className="booking-item">
+      <strong>{booking.venue?.name || 'Unknown Venue'}</strong>
       {venueImage && (
         <img 
           src={venueImage.url} 
@@ -74,11 +83,16 @@ function CustomerBookingItem({ booking }: { booking: Booking }) {
         />
       )}
       <div className="booking-details">
-        <strong>{booking.venue?.name || 'Unknown Venue'}</strong>
-        <p>
-          {formatDateRange(booking.dateFrom, booking.dateTo)}
-        </p>
+        <p>{formatDateRange(booking.dateFrom, booking.dateTo)}</p>
         <p>{booking.guests} {booking.guests === 1 ? 'guest' : 'guests'}</p>
+        {booking.venue?.id && (
+          <button 
+            className="btn-view-venue" 
+            onClick={handleViewVenue}
+          >
+            View Venue
+          </button>
+        )}
       </div>
     </li>
   );

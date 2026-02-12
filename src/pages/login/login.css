@@ -1,4 +1,4 @@
-.loginParent {
+.login-container {
   background-color: #ffffff;
   width: 75%;
   display: flex;
@@ -8,27 +8,31 @@
   margin: 2rem auto;
 }
 
-.loginForm {
+.login-title {
+  margin: 1em 0;
+}
+
+.login-form {
   display: flex;
   flex-direction: column;
 }
 
-.loginInput {
+.login-input {
   display: flex;
   flex-direction: column;
 }
 
-.loginInput input {
-  margin: 1rem 0;
+.login-input input {
+  margin: 2em 0;
   border: none;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.noAccount {
+.no-account {
   font-size: small;
 }
 
-.registerLink {
+.register-link {
   text-decoration: none;
   color: #4F8EF7;
 }

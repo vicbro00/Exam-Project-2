@@ -171,15 +171,6 @@ export default function VenueManagerDashboard() {
           {loading && <p>Loading venues...</p>}
           {error && <p className="error">{error}</p>}
 
-          {!loading && !error && venues.length === 0 && (
-            <div className="no-venues">
-              <p>You haven't created any venues yet.</p>
-              <button className="btn-create-venue" onClick={handleCreateNew}>
-                Create Your First Venue
-              </button>
-            </div>
-          )}
-
           {!loading && !error && venues.length > 0 && (
             <div className="venues-grid">
               {venues.map((venue) => (

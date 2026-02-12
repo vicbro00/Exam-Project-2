@@ -30,7 +30,7 @@ export default function VenueCard({
 }: VenueProps) {
   const navigate = useNavigate();
   return (
-    <div className={`venue-card ${variant} d-flex flex-wrap gap-4 m-5 justify-content-center`}>
+    <div className={`venue-card ${variant}`}>
         <h2 className="venue-title">{name}</h2>
       
       {media && media.length > 0 && (

@@ -2,6 +2,7 @@ import { useState } from "react";
 import EditProfile from "./EditProfile";
 import { API_BASE_URL } from "../../services/api";
 import { toast } from 'react-toastify';
+import "./profile.css";
 
 export interface ProfileData {
   name: string;
@@ -95,10 +96,7 @@ export default function Profile({ profile }: ProfileProps) {
 
           <button onClick={() => setIsEditing(true)}>Edit Profile</button>
         </div>
-
-          {/* Edit button */}
-          <button onClick={() => setIsEditing(true)}>Edit Profile</button>
-        </div>
       </div>
+    </div>
   );
 }

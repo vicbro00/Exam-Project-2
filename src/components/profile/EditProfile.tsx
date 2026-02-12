@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ProfileData } from "./Profile";
 import { toast } from 'react-toastify';
+import "./profile.css";
 
 interface EditProfileProps {
   profile: ProfileData;
@@ -15,8 +16,39 @@ export default function EditProfile({ profile, onSave, onCancel }: EditProfilePr
   const [email, setEmail] = useState(profile.email);
   const [bio, setBio] = useState(profile.bio || "");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const isImageUrlValid = async (url: string): Promise<boolean> => {
+    if (!url) return true;
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = url;
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+    });
+  };
+
+  const handleBannerUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const url = e.target.value;
+    setBannerUrl(url);
+  };
+
+  const handleAvatarUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const url = e.target.value;
+    setAvatarUrl(url);
+  };
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (bannerUrl && !(await isImageUrlValid(bannerUrl))) {
+      toast.error("Banner URL is not a valid image");
+      return;
+    }
+    if (avatarUrl && !(await isImageUrlValid(avatarUrl))) {
+      toast.error("Avatar URL is not a valid image");
+      return;
+    }
+
     onSave({
       ...profile,
       name,
@@ -43,17 +75,21 @@ export default function EditProfile({ profile, onSave, onCancel }: EditProfilePr
       </label>
 
       {/* Banner URL */}
-      {bannerUrl && <img src={bannerUrl} alt="Banner preview" />}
+      {bannerUrl && (
+        <img src={bannerUrl} alt="Banner preview" onError={(e) => e.currentTarget.style.display = 'none'} />
+      )}
       <label>
         Banner URL:
-        <input value={bannerUrl} onChange={(e) => setBannerUrl(e.target.value)} />
+        <input value={bannerUrl} onChange={handleBannerUrlChange} />
       </label>
 
       {/* Avatar URL */}
-      {avatarUrl && <img src={avatarUrl} alt="Avatar preview" />}
+      {avatarUrl && (
+        <img src={avatarUrl} alt="Avatar preview" onError={(e) => e.currentTarget.style.display = 'none'} />
+      )}
       <label>
         Avatar URL:
-        <input value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} />
+        <input value={avatarUrl} onChange={handleAvatarUrlChange} />
       </label>
 
       {/* Email */}

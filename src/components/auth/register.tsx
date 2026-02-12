@@ -64,28 +64,31 @@ export function RegisterForm() {
   return (
     <div>
       {!isSuccess ? (
-        <form className="registerInput" onSubmit={handleSubmit}>
+        <form className="register-input" onSubmit={handleSubmit}>
       {/* Name */}
+      Name:
       <input
         type="text"
         name="name"
-        placeholder="Name"
+        placeholder="Name.."
         value={formData.name}
         onChange={handleChange}
       />
+      Email:
       {/* Email */}
       <input
         type="email"
         name="email"
-        placeholder="Email"
+        placeholder="Email.."
         value={formData.email}
         onChange={handleChange}
       />
+      Password:
       {/* Password */}
       <input
         type="password"
         name="password"
-        placeholder="Password"
+        placeholder="Password.."
         value={formData.password}
         onChange={handleChange}
       />

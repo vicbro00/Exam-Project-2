@@ -4,15 +4,15 @@ import './login.css';
 
 function LoginPage() {
   return (
-    <div className='loginParent'>
-      <div>
+    <div className='login-container'>
+      <div className='login-title'>
         Sign in
       </div>
-      <div className='loginForm'>
+      <div className='login-form'>
         <LoginForm />
       </div>
-      <div className='noAccount'>
-        <p>Dont have an account? <Link to="/register" className='registerLink'>Sign up</Link></p>
+      <div className='no-account'>
+        <p>Dont have an account? <Link to="/register" className='register-link'>Sign up</Link></p>
       </div>
     </div>
   );

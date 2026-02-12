@@ -60,11 +60,13 @@ export function LoginForm() {
 
       toast.success("Login successful!");
 
-      if (data.data.venueManager) {
-        navigate("/venueManagerDashboard");
-      } else {
-        navigate("/customerDashboard");
-      }
+      setTimeout(() => {
+        if (data.data.venueManager) {
+          window.location.href = "/venueManagerDashboard";
+        } else {
+          window.location.href = "/customerDashboard";
+        }
+      }, 1000);
 
       setIsSuccess(true);
       setFormData({ email: "", password: "" });
@@ -77,22 +79,24 @@ export function LoginForm() {
   return (
     <div>
       {!isSuccess ? (
-        <form className="loginInput" onSubmit={handleSubmit}>
-      <input  
+        <form className="login-input" onSubmit={handleSubmit}>
+        Email:
+      <input
         type="email"  
         name="email"
-        placeholder="Email"
+        placeholder="Email.."
         value={formData.email}
         onChange={handleChange}
       />
+      Password:
       <input
         type="password"
         name="password"
-        placeholder="Password"
+        placeholder="Password.."
         value={formData.password}
         onChange={handleChange}
       />
-      <button type="submit">Login</button>
+      <button type="submit">Sign in</button>
       {error && <p className="error">{error}</p>}
     </form>
       ) : (

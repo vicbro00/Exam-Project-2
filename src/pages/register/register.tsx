@@ -4,15 +4,15 @@ import './register.css';
 
 function RegisterPage() {
   return (
-    <div className='registerParent'>
-      <div>
+    <div className='register-container'>
+      <div className='register-title'>
         Sign up
       </div>
-      <div className='registerForm'>
+      <div className='register-form'>
         <RegisterForm />
       </div>
-      <div className='alreadyLoggedIn'>
-        <p>Already have an account? <Link to="/login" className='loginLink'>Sign in</Link></p>
+      <div className='already-logged-in'>
+        <p>Already have an account? <Link to="/login" className='login-link'>Sign in</Link></p>
       </div>
     </div>
   );

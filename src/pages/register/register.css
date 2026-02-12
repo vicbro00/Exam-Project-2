@@ -1,4 +1,4 @@
-.registerParent {
+.register-container {
   background-color: #ffffff;
   width: 75%;
   display: flex;
@@ -8,27 +8,35 @@
   margin: 2rem auto;
 }
 
-.registerForm {
+.register-title {
+  margin: 1em 0;
+}
+
+.register-form {
   display: flex;
   flex-direction: column;
 }
 
-.registerInput {
+.register-input {
   display: flex;
   flex-direction: column;
 }
 
-.registerInput input {
+.register-input input {
   margin: 1rem 0;
   border: none;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.alreadyLoggedIn {
+.register-input input::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.already-logged-in {
   font-size: small;
 }
 
-.loginLink {
+.login-link {
   text-decoration: none;
   color: #4F8EF7;
 }

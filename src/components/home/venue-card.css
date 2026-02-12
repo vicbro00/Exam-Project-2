@@ -5,6 +5,10 @@
   width: auto;
   flex-direction: column;
   padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  margin: 1em;
 }
 
 .venue-card:hover {
@@ -39,4 +43,23 @@
   padding: 10px;
   gap: 8px;
   background-color: #F5F3EF;
+}
+
+@media (min-width: 768px) {
+  .venue-card {
+    max-width: 50%;
+    display: flex;
+    margin: 4em auto;
+  }
+
+  .venue-card img {
+    width: 50%;
+    height: auto;
+    margin: auto;
+  }
+
+  .venue-box, .venue-card h2 {
+    max-width: 50%;
+    margin: auto;
+  }
 }
