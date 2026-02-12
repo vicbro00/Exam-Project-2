@@ -1,15 +1,9 @@
-.navbar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 
 .navbar ul {
   display: flex;
   flex-direction: column;
-  width: 50%;
   list-style: none;
+  width: 50%;
   position: fixed;
   left: -400px;
   top: 50px;
@@ -18,7 +12,6 @@
 }
 
 .navbar ul li {
-  list-style-type: none;
   padding: 0.5em;
   color: #EBEEF4;
 }
@@ -35,8 +28,33 @@
 }
 
 @media (min-width: 768px) {
+  
+  
   .navbar ul {
+    position: static;
+    margin: 0;
+    align-items: center;
+    height: auto;
+    width: auto;
+    background: none;
+    transition: none;
     display: flex;
     flex-direction: row;
+  }
+
+  .navbar ul li {
+    color: #4F8EF7;
+  }
+
+  .nav-links {
+    left: 0;
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  .mobile-only {
+    display: none;
   }
 }

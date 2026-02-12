@@ -50,30 +50,30 @@ export function LoginForm() {
         localStorage.setItem("accessToken", data.data.accessToken);
         localStorage.setItem("userName", data.data.name);
         localStorage.setItem("userEmail", data.data.email);
+        localStorage.setItem("venueManager", String(data.data.venueManager));
 
-        toast.success("Login successful!");
-
-        try {
-          const profileResponse = await fetch(`${API_BASE_URL}/holidaze/venues?owner=${data.data.name}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${data.data.accessToken}`
-            }
-          });
-          const profileData = await profileResponse.json();
-          localStorage.setItem("venueManager", profileData.data.length > 0 ? "true" : "false");
-        } catch (profileError) {
-          console.error("Error fetching profile data:", profileError);
-        }
-
-        navigate("/");
-        setIsSuccess(true);
-        setFormData({ email: "", password: "" });
-      } catch (error) {
-        console.error("Error during login:", error);
+        if (data.data.avatar?.url) {
+        localStorage.setItem("avatar", data.data.avatar.url);
+      } else {
+        localStorage.removeItem("avatar");
       }
-    };
+
+      toast.success("Login successful!");
+
+      if (data.data.venueManager) {
+        navigate("/venueManagerDashboard");
+      } else {
+        navigate("/customerDashboard");
+      }
+
+      setIsSuccess(true);
+      setFormData({ email: "", password: "" });
+    } catch (error) {
+      console.error("Error during login:", error);
+      setError("An error occurred during login. Please try again.");
+    }
+  };
+
   return (
     <div>
       {!isSuccess ? (

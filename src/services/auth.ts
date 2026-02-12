@@ -25,4 +25,18 @@ function getToken() {
   return localStorage.getItem("accessToken");
 }
 
-export { isVenueManager, isLoggedIn, getToken };
+function getUser() {
+  const userName = localStorage.getItem("userName");
+  const userEmail = localStorage.getItem("userEmail");
+  const avatar = localStorage.getItem("avatar");
+  
+  if (!userName) return null;
+  
+  return {
+    name: userName,
+    email: userEmail,
+    avatar: avatar && avatar !== 'undefined' ? avatar : null,
+  };
+}
+
+export { isVenueManager, isLoggedIn, getToken, getUser };

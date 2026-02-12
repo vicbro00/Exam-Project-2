@@ -1,22 +1,15 @@
 import './header.css';
 import Navbar from './NavBar.tsx';
-import Profile from '../header/Profile.tsx';
-import { isLoggedIn } from '../../services/auth.ts';
+import ProfileHeader from './ProfileHeader.tsx';
 
 function Header() {
   return (
     <header className="header">
       <Navbar />
-      <div className='spacer'></div>
-      <div>
-        <h1>
-          Holidaze
-        </h1>
+      <div className="header-title">
+        <h1>Holidaze</h1>
       </div>
-      <div className='spacer'></div>
-      <div className='d-none d-md-block'>
-        {isLoggedIn() && <Profile />}
-      </div>
+      <ProfileHeader />
     </header>
   );
 }
