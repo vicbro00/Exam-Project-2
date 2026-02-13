@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getToken, getApiKey } from "../../services/auth";
 import { toast } from "react-toastify";
+import "./create-edit-venue.css";
 
 interface Venue {
   id?: string;
@@ -129,7 +130,7 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
       {/* Header */}
       <div className="venue-header">
         <h2>{isEditing ? "Edit Venue" : "Create New Venue" }</h2>
-        <button className="btn-close" onClick={onClose}>×</button>
+        <button className="btn-close" onClick={onClose}></button>
       </div>
 
       {/* Form */}
@@ -254,9 +255,9 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
         {/* Amenities */}
         <div className="form-section">
           <h3>Amenities</h3>
-          <div className="amenities-checkboxes">
+          <div className="amenities">
             {["wifi", "parking", "breakfast", "pets"].map((amenity) => (
-              <label key={amenity} className="checkbox-label">
+              <label key={amenity}>
                 <input
                   type="checkbox"
                   name={amenity}

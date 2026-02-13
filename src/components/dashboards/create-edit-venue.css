@@ -1,0 +1,52 @@
+.venue-container {
+  background-color: white;
+  padding: 2em;
+  display: flex;
+  margin: auto;
+  align-items: center;
+}
+
+.venue-header {
+  text-align: center;
+}
+
+.venue-header button {
+  float: right;
+  margin: 2em 0;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  padding: 1em 0;
+  gap: 2em;
+  background-color: #F5F3EF;
+  align-items: center;
+}
+
+.form-section label {
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.amenities {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: start;
+}
+
+.btn-cancel {
+  background-color: #F28C8C;
+  color: #1F2937;
+}
+
+@media (min-width: 768px) {
+  .venue-form {
+    min-width: 90vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+  }
+}
