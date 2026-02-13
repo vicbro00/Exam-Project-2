@@ -37,7 +37,7 @@
   align-items: flex-start;
 }
 
-.venue-box {
+.venue-container {
   display: flex;
   flex-direction: column;
   padding: 10px;

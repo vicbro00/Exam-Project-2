@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { API_BASE_URL } from '../../services/api';
-import VenueCard from '../../components/home/VenueCard';
-import VenueCalendar from '../../components/venue/Calendar';
-import CustomerBooking from '../../components/venue/CustomerBooking';
-import './venues-details.css';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { API_BASE_URL } from "../../services/api";
+import VenueCard from "../../components/home/VenueCard";
+import VenueCalendar from "../../components/venue/Calendar";
+import CustomerBooking from "../../components/venue/CustomerBooking";
+import "./venues-details.css";
+import Spinner from "../../components/Spinner";
 
 interface VenueLocation {
   address?: string;
@@ -35,7 +36,7 @@ export default function VenueDetailsPage() {
       const data = await res.json();
       const venueData = {
         ...data.data,
-        location: typeof data.data.location === 'string'
+        location: typeof data.data.location === "string"
           ? { address: data.data.location }
           : data.data.location,
       };
@@ -45,7 +46,7 @@ export default function VenueDetailsPage() {
     fetchVenue();
   }, [id]);
 
-  if (loading) return <p>Loading venue...</p>;
+  if (loading) return <Spinner />;
   if (!venue) return <p>Venue not found</p>;
 
   return (

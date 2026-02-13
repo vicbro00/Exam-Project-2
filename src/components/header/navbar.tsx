@@ -1,9 +1,9 @@
-import Hamburger from './Hamburger';
-import { Link } from 'react-router-dom';
-import './navbar.css';
-import { useEffect, useState } from 'react';
-import { isVenueManager, isLoggedIn } from '../../services/auth';
-import Logout from '../auth/Logout';
+import Hamburger from "./Hamburger";
+import { Link } from "react-router-dom";
+import "./navbar.css";
+import { useEffect, useState } from "react";
+import { isVenueManager, isLoggedIn } from "../../services/auth";
+import Logout from "../auth/Logout";
 
 export default function Navbar() {
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
@@ -16,17 +16,17 @@ export default function Navbar() {
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    const navLinks = document.querySelector('.nav-links');
-    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector(".nav-links");
+    const hamburger = document.querySelector(".hamburger");
     if (navLinks && hamburger && !navLinks.contains(event.target as Node) && !hamburger.contains(event.target as Node)) {
       setHamburgerOpen(false);
     }
   };
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
@@ -45,12 +45,12 @@ export default function Navbar() {
           venueManager ? (
             <>
               <li><Link to="/venueManagerDashboard">Dashboard</Link></li>
-              <li className='mobile-only'><Link to="/profile">Profile</Link></li>
+              <li className="mobile-only"><Link to="/profile">Profile</Link></li>
             </>
           ) : (
             <>
               <li><Link to="/customerDashboard">Dashboard</Link></li>
-              <li className='mobile-only'><Link to="/profile">Profile</Link></li>
+              <li className="mobile-only"><Link to="/profile">Profile</Link></li>
             </>
           )
         ) : (
@@ -61,7 +61,7 @@ export default function Navbar() {
         )}
 
         {loggedIn && (
-          <li className='mobile-only'>
+          <li className="mobile-only">
             <Logout />
           </li>
         )}

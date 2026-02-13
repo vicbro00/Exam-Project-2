@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { isVenueManager, getToken, getApiKey } from '../../services/auth';
-import { toast } from 'react-toastify';
+import { useState } from "react";
+import { isVenueManager, getToken, getApiKey } from "../../services/auth";
+import { toast } from "react-toastify";
+import Spinner from "../Spinner";
 
 interface CustomerBookingProps {
   venueId: string;
@@ -37,12 +38,12 @@ export default function CustomerBooking({
     setSuccess(false);
 
     if (!selectedDateFrom || !selectedDateTo) {
-      setError('Please select dates on the calendar above');
+      setError("Please select dates on the calendar above");
       return;
     }
 
     if (new Date(selectedDateTo) <= new Date(selectedDateFrom)) {
-      setError('End date must be after start date');
+      setError("End date must be after start date");
       return;
     }
 
@@ -52,13 +53,13 @@ export default function CustomerBooking({
       const apiKey = getApiKey();
       
       const res = await fetch(
-        'https://v2.api.noroff.dev/holidaze/bookings',
+        "https://v2.api.noroff.dev/holidaze/bookings",
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'X-Noroff-API-Key': apiKey,
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+            "X-Noroff-API-Key": apiKey,
           },
           body: JSON.stringify({
             dateFrom: selectedDateFrom,
@@ -72,22 +73,22 @@ export default function CustomerBooking({
       const data = await res.json();
 
       if (!res.ok) {
-        console.error('Booking error:', data);
-        const errorMessage = data.errors?.[0]?.message || data.message || 'Booking failed';
+        console.error("Booking error:", data);
+        const errorMessage = data.errors?.[0]?.message || data.message || "Booking failed";
         throw new Error(errorMessage);
       }
 
       setSuccess(true);
       setGuests(1);
+      toast.success("Booking confirmed!");
     } catch (err) {
-      console.error('Booking error:', err);
-      setError(err instanceof Error ? err.message : 'Could not create booking. Please try logging in again.');
-      toast.error(err instanceof Error ? err.message : 'Could not create booking. Please try logging in again.');
+      console.error("Booking error:", err);
+      setError(err instanceof Error ? err.message : "Could not create booking. Please try logging in again.");
+      toast.error(err instanceof Error ? err.message : "Could not create booking. Please try logging in again.");
     } finally {
       setLoading(false);
     }
-    toast.success('Booking confirmed 🎉');
-  }
+  } if (loading) return <Spinner />;
 
   return (
     <section className="customer-booking">
@@ -116,11 +117,11 @@ export default function CustomerBooking({
         </label>
 
         <button type="submit" disabled={loading || !selectedDateFrom || !selectedDateTo}>
-          {loading ? 'Booking...' : 'Confirm booking'}
+          {loading ? "Booking..." : "Confirm booking"}
         </button>
 
-        {error && <p className="error">{error}</p>}
-        {success && <p className="success">Booking confirmed 🎉</p>}
+        {error && <p>{error}</p>}
+        {success && <p>Booking confirmed!</p>}
       </form>
     </section>
   );

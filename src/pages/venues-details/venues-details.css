@@ -61,6 +61,11 @@
   margin-top: 20px;
 }
 
+.venue-calendar-container .calendar-legend {
+  justify-content: center;
+  display: flex;
+}
+
 .calendar-legend p {
   display: flex;
   align-items: center;

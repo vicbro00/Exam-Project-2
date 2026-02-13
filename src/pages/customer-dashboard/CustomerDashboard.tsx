@@ -1,18 +1,18 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { isLoggedIn, isVenueManager } from '../../services/auth';
-import UpcomingBookings from '../../components/dashboards/UpcomingBookings';
-import './customer-dashboard.css';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { isLoggedIn, isVenueManager } from "../../services/auth";
+import UpcomingBookings from "../../components/dashboards/UpcomingBookings";
+import "./customer-dashboard.css";
 
 export default function CustomerDashboard() {
   const navigate = useNavigate();
-  const userName = localStorage.getItem('userName');
+  const userName = localStorage.getItem("userName");
 
   useEffect(() => {
     if (!isLoggedIn()) {
-      navigate('/login');
+      navigate("/login");
     } else if (isVenueManager()) {
-      navigate('/venueManagerDashboard');
+      navigate("/venueManagerDashboard");
     }
   }, [navigate]);
 
@@ -20,7 +20,7 @@ export default function CustomerDashboard() {
     <div className="dashboard-container">
       <header className="dashboard-header">
         <h1>My Dashboard</h1>
-        <p>Welcome back, {userName || 'Customer'}!</p>
+        <p>Welcome back, {userName || "Customer"}!</p>
       </header>
       
       <div className="dashboard-content">

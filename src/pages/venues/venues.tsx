@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
-import { API_BASE_URL } from '../../services/api';
-import VenueCard from '../../components/home/VenueCard';
-import Search from '../../components/home/Search';
-import './venues.css';
+import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../services/api";
+import VenueCard from "../../components/home/VenueCard";
+import Search from "../../components/home/Search";
+import "./venues.css";
+import Spinner from "../../components/Spinner";
 
 interface Venue {
   id: string;
@@ -14,9 +15,9 @@ interface Venue {
 
 export default function Venues() {
   const [venues, setVenues] = useState<Venue[]>([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     async function fetchVenues() {
@@ -39,7 +40,7 @@ export default function Venues() {
     return 0;
   });
 
-  if (loading) return <p>Loading venues...</p>;
+  if (loading) return <Spinner />;
 
   return (
     <div>

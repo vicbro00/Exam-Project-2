@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getToken, getApiKey } from '../../services/auth';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getToken, getApiKey } from "../../services/auth";
 
 interface Booking {
   id: string;
@@ -28,40 +28,40 @@ interface UpcomingBookingsProps {
   isManager: boolean;
 }
 
-// Helper function for API requests
+// Fetching
 async function fetchWithAuth(url: string) {
   const token = getToken();
   const apiKey = getApiKey();
   
   const response = await fetch(url, {
     headers: {
-      'Authorization': `Bearer ${token}`,
-      'X-Noroff-API-Key': apiKey,
+      "Authorization": `Bearer ${token}`,
+      "X-Noroff-API-Key": apiKey,
     },
   });
   
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.errors?.[0]?.message || 'Request failed');
+    throw new Error(error.errors?.[0]?.message || "Request failed");
   }
   
   return response.json();
 }
 
-// Helper to sort bookings by date
+// Sort bookigns
 function sortBookingsByDate(bookings: Booking[]): Booking[] {
   return [...bookings].sort(
     (a, b) => new Date(a.dateFrom).getTime() - new Date(b.dateFrom).getTime()
   );
 }
 
-// Helper to filter upcoming bookings
+// Upcoming bookings
 function filterUpcomingBookings(bookings: Booking[]): Booking[] {
   const today = new Date();
   return bookings.filter(booking => new Date(booking.dateTo) >= today);
 }
 
-// Booking item component for customer view
+// Customer view
 function CustomerBookingItem({ booking }: { booking: Booking }) {
   const navigate = useNavigate();
   const venueImage = booking.venue?.media?.[0];
@@ -98,7 +98,7 @@ function CustomerBookingItem({ booking }: { booking: Booking }) {
   );
 }
 
-// Booking item component for manager view
+// Manager view
 function ManagerBookingItem({ booking }: { booking: Booking }) {
   return (
     <li className="booking-item">
@@ -112,22 +112,20 @@ function ManagerBookingItem({ booking }: { booking: Booking }) {
   );
 }
 
-// Helper to format date range
 function formatDateRange(start: string, end: string): string {
   const startDate = new Date(start).toLocaleDateString();
   const endDate = new Date(end).toLocaleDateString();
   return `${startDate} – ${endDate}`;
 }
 
-// Main component
 export default function UpcomingBookings({ isManager }: UpcomingBookingsProps) {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [venues, setVenues] = useState<VenueWithBookings[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
   
-  const sectionTitle = isManager ? 'Bookings on Your Venues' : 'Upcoming Bookings';
-  const userName = localStorage.getItem('userName');
+  const sectionTitle = isManager ? "Bookings on Your Venues" : "Upcoming Bookings";
+  const userName = localStorage.getItem("userName");
 
   useEffect(() => {
     async function loadManagerBookings() {
@@ -162,7 +160,7 @@ export default function UpcomingBookings({ isManager }: UpcomingBookingsProps) {
         setLoading(true);
         
         if (!userName || !getToken()) {
-          setError('Please log in to view bookings');
+          setError("Please log in to view bookings");
           return;
         }
 
@@ -182,8 +180,8 @@ export default function UpcomingBookings({ isManager }: UpcomingBookingsProps) {
   }, [isManager, userName]);
 
   function handleError(err: unknown) {
-    console.error('Error loading bookings:', err);
-    const message = err instanceof Error ? err.message : 'Failed to load bookings';
+    console.error("Error loading bookings:", err);
+    const message = err instanceof Error ? err.message : "Failed to load bookings";
     setError(message);
   }
 

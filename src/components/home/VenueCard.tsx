@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
-import './venue-card.css';
+import { useNavigate } from "react-router-dom";
+import "./venue-card.css";
 
 type VenueProps = {
   id: string;
@@ -14,7 +14,7 @@ type VenueProps = {
     city?: string;
     country?: string;
   };
-  variant?: 'list' | 'detail';
+  variant?: "list" | "detail";
 };
 
 export default function VenueCard({
@@ -26,7 +26,7 @@ export default function VenueCard({
   rating,
   media,
   location,
-  variant = 'list',
+  variant = "list",
 }: VenueProps) {
   const navigate = useNavigate();
   return (
@@ -37,8 +37,8 @@ export default function VenueCard({
         <img src={media[0].url} alt={media[0].alt || name} />
       )}
 
-      <div className='venue-box'>
-        {variant === 'detail' && description && <p>{description}</p>}
+      <div className="venue-container">
+        {variant === "detail" && description && <p>{description}</p>}
 
         {location && (<div className="venue-location-rating">
           <div>
@@ -60,7 +60,7 @@ export default function VenueCard({
         {maxGuests !== undefined && <p>Max Guests: {maxGuests}</p>}
       </div>
 
-      {variant === 'list' && (
+      {variant === "list" && (
         <button
           className="details-button"
           onClick={() => navigate(`/venues/${id}`)}

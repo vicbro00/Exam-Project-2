@@ -1,10 +1,11 @@
-import { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { isLoggedIn, isVenueManager, getToken, getApiKey } from '../../services/auth';
-import UpcomingBookings from '../../components/dashboards/UpcomingBookings';
-import VenueCard from '../../components/dashboards/VenueCard';
-import CreateEditVenue from '../../components/dashboards/CreateEditVenue';
-import './venue-manager-dashboard.css';
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { isLoggedIn, isVenueManager, getToken, getApiKey } from "../../services/auth";
+import UpcomingBookings from "../../components/dashboards/UpcomingBookings";
+import VenueCard from "../../components/dashboards/VenueCard";
+import CreateEditVenue from "../../components/dashboards/CreateEditVenue";
+import "./venue-manager-dashboard.css";
+import Spinner from "../../components/Spinner";
 
 interface VenueMedia {
   url: string;
@@ -36,7 +37,7 @@ interface Venue {
 
 export default function VenueManagerDashboard() {
   const navigate = useNavigate();
-  const userName = localStorage.getItem('userName');
+  const userName = localStorage.getItem("userName");
   
   const loggedIn = isLoggedIn();
   const isManager = isVenueManager();
@@ -53,7 +54,7 @@ export default function VenueManagerDashboard() {
       const apiKey = getApiKey();
 
       if (!userName || !token) {
-        setError('Not authenticated');
+        setError("Not authenticated");
         setLoading(false);
         return;
       }
@@ -62,22 +63,22 @@ export default function VenueManagerDashboard() {
         `https://v2.api.noroff.dev/holidaze/profiles/${userName}/venues`,
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'X-Noroff-API-Key': apiKey,
+            "Authorization": `Bearer ${token}`,
+            "X-Noroff-API-Key": apiKey,
           },
         }
       );
 
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.errors?.[0]?.message || 'Failed to fetch venues');
+        throw new Error(errorData.errors?.[0]?.message || "Failed to fetch venues");
       }
 
       const data = await res.json();
       setVenues(data.data);
     } catch (err) {
-      console.error('Error fetching venues:', err);
-      setError(err instanceof Error ? err.message : 'Could not load venues');
+      console.error("Error fetching venues:", err);
+      setError(err instanceof Error ? err.message : "Could not load venues");
     } finally {
       setLoading(false);
     }
@@ -85,16 +86,16 @@ export default function VenueManagerDashboard() {
 
   useEffect(() => {
     if (!loggedIn) {
-      navigate('/login');
+      navigate("/login");
     } else if (!isManager) {
-      navigate('/customer-dashboard');
+      navigate("/customer-dashboard");
     } else {
       fetchVenues();
     }
   }, [navigate, loggedIn, isManager, fetchVenues]);
 
   async function handleDelete(venueId: string) {
-    if (!window.confirm('Are you sure you want to delete this venue?')) {
+    if (!window.confirm("Are you sure you want to delete this venue?")) {
       return;
     }
 
@@ -105,25 +106,25 @@ export default function VenueManagerDashboard() {
       const res = await fetch(
         `https://v2.api.noroff.dev/holidaze/venues/${venueId}`,
         {
-          method: 'DELETE',
+          method: "DELETE",
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'X-Noroff-API-Key': apiKey,
+            "Authorization": `Bearer ${token}`,
+            "X-Noroff-API-Key": apiKey,
           },
         }
       );
 
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.errors?.[0]?.message || 'Failed to delete venue');
+        throw new Error(errorData.errors?.[0]?.message || "Failed to delete venue");
       }
 
-      // Remove venue from list
+      // Delete venue
       setVenues(venues.filter(v => v.id !== venueId));
-      alert('Venue deleted successfully!');
+      alert("Venue deleted successfully!");
     } catch (err) {
-      console.error('Error deleting venue:', err);
-      alert(err instanceof Error ? err.message : 'Failed to delete venue');
+      console.error("Error deleting venue:", err);
+      alert(err instanceof Error ? err.message : "Failed to delete venue");
     }
   }
 
@@ -143,7 +144,6 @@ export default function VenueManagerDashboard() {
   }
 
   function handleSuccess() {
-    // Refresh venues list
     fetchVenues();
   }
 
@@ -151,11 +151,13 @@ export default function VenueManagerDashboard() {
     return null;
   }
 
+  if (loading) return <Spinner />;
+
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
         <h1>Venue Manager Dashboard</h1>
-        <p>Welcome back, {userName || 'Manager'}!</p>
+        <p>Welcome back, {userName || "Manager"}!</p>
       </header>
 
       <div className="dashboard-content">
@@ -189,7 +191,7 @@ export default function VenueManagerDashboard() {
         <UpcomingBookings isManager={true} />
       </div>
 
-      {/* Create/Edit Modal */}
+      {/* Create/Edit */}
       {showCreateEdit && (
         <CreateEditVenue
           venue={editingVenue}

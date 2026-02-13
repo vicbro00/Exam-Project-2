@@ -1,7 +1,8 @@
 import './App.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/header/Header';
 import Footer from './components/Footer';
 import RegisterPage from './pages/register/Register';
@@ -11,10 +12,26 @@ import VenuesDetails from './pages/venues-details/VenuesDetails';
 import CustomerDashboard from './pages/customer-dashboard/CustomerDashboard';
 import VenueManagerDashboard from './pages/venue-manager-dashboard/VenueManagerDashboard';
 import Profile from './pages/profile/Profile';
+import Spinner from './components/Spinner';
 
 function App() {
+  const location = useLocation();
+  const [routeLoading, setRouteLoading] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setRouteLoading(true);
+
+    const timer = setTimeout(() => {
+      setRouteLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
   return (
-    <BrowserRouter>
+    <>
+      {routeLoading && <Spinner />}
       <Header />
       <main>
         <Routes>
@@ -36,7 +53,7 @@ function App() {
           />
       </main>
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
 

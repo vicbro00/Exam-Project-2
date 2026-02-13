@@ -33,7 +33,7 @@ interface VenueCardProps {
 }
 
 export default function VenueCard({ venue, onEdit, onDelete }: VenueCardProps) {
-  const imageUrl = venue.media?.[0]?.url || 'https://via.placeholder.com/300x200?text=No+Image';
+  const imageUrl = venue.media?.[0]?.url || "https://via.placeholder.com/300x200?text=No+Image";
 
   return (
     <div className="venue-card">
@@ -48,7 +48,7 @@ export default function VenueCard({ venue, onEdit, onDelete }: VenueCardProps) {
         <p className="venue-location">
           {venue.location?.city && venue.location?.country 
             ? `${venue.location.city}, ${venue.location.country}`
-            : 'Location not specified'}
+            : "Location not specified"}
         </p>
         
         <p className="venue-description">

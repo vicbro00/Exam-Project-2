@@ -1,4 +1,4 @@
-import './hamburger.css';
+import "./hamburger.css";
 
 /* Hamburger menu code adapted from: https://khuang159.medium.com/creating-a-hamburger-menu-in-react-f22e5ae442cb */
 export default function Hamburger() {

@@ -3,6 +3,7 @@ import "./profile.css";
 import type { ProfileData } from "../../components/profile/Profile";
 import { API_BASE_URL } from "../../services/api";
 import Profile from "../../components/profile/Profile";
+import Spinner from "../../components/Spinner";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<ProfileData | null>(null);
@@ -17,6 +18,7 @@ export default function ProfilePage() {
 
         if (!userName || !token) {
           setError("Please log in to view your profile");
+          setLoading(false);
           return;
         }
 
@@ -41,9 +43,9 @@ export default function ProfilePage() {
     fetchProfile();
   }, []);
 
-  if (loading) return <div className="profile-container">Loading profile...</div>;
-  if (error) return <div className="profile-container error">{error}</div>;
-  if (!profile) return <div className="profile-container error">No profile data found</div>;
+  if (loading) return <Spinner />;
+  if (error) return <div>{error}</div>;
+  if (!profile) return <div>No profile data found</div>;
 
   return <Profile profile={profile} />;
 }

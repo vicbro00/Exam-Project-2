@@ -1,7 +1,7 @@
 import { useState } from "react";
 import EditProfile from "./EditProfile";
 import { API_BASE_URL } from "../../services/api";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import "./profile.css";
 
 export interface ProfileData {

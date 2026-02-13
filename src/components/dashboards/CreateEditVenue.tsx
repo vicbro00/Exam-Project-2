@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { getToken, getApiKey } from '../../services/auth';
-import { toast } from 'react-toastify';
+import { useState } from "react";
+import { getToken, getApiKey } from "../../services/auth";
+import { toast } from "react-toastify";
 
 interface Venue {
   id?: string;
@@ -32,15 +32,15 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
   const isEditing = !!venue;
   
   const [formData, setFormData] = useState({
-    name: venue?.name || '',
-    description: venue?.description || '',
+    name: venue?.name || "",
+    description: venue?.description || "",
     price: venue?.price || 0,
     maxGuests: venue?.maxGuests || 1,
-    address: venue?.location?.address || '',
-    city: venue?.location?.city || '',
-    country: venue?.location?.country || '',
-    mediaUrl: venue?.media?.[0]?.url || '',
-    mediaAlt: venue?.media?.[0]?.alt || '',
+    address: venue?.location?.address || "",
+    city: venue?.location?.city || "",
+    country: venue?.location?.country || "",
+    mediaUrl: venue?.media?.[0]?.url || "",
+    mediaAlt: venue?.media?.[0]?.alt || "",
     wifi: venue?.meta?.wifi || false,
     parking: venue?.meta?.parking || false,
     breakfast: venue?.meta?.breakfast || false,
@@ -52,7 +52,7 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const target = e.target as HTMLInputElement;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     
     setFormData(prev => ({
       ...prev,
@@ -90,16 +90,16 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
 
       const url = isEditing
         ? `https://v2.api.noroff.dev/holidaze/venues/${venue.id}`
-        : 'https://v2.api.noroff.dev/holidaze/venues';
+        : "https://v2.api.noroff.dev/holidaze/venues";
       
-      const method = isEditing ? 'PUT' : 'POST';
+      const method = isEditing ? "PUT" : "POST";
 
       const res = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-          'X-Noroff-API-Key': apiKey,
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+          "X-Noroff-API-Key": apiKey,
         },
         body: JSON.stringify(payload),
       });
@@ -107,16 +107,16 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.errors?.[0]?.message || 'Failed to save venue');
+        throw new Error(data.errors?.[0]?.message || "Failed to save venue");
       }
 
-      toast.success(`Venue ${isEditing ? 'updated' : 'created'} successfully!`);
+      toast.success(`Venue ${isEditing ? "updated" : "created"} successfully!`);
       onSuccess();
       onClose();
       
     } catch (err) {
-      console.error('Error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to save venue');
+      console.error("Error:", err);
+      setError(err instanceof Error ? err.message : "Failed to save venue");
     } finally {
       setLoading(false);
     }
@@ -128,7 +128,7 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
       
       {/* Header */}
       <div className="venue-header">
-        <h2>{isEditing ? 'Edit Venue' : 'Create New Venue'}</h2>
+        <h2>{isEditing ? "Edit Venue" : "Create New Venue" }</h2>
         <button className="btn-close" onClick={onClose}>×</button>
       </div>
 
@@ -255,7 +255,7 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
         <div className="form-section">
           <h3>Amenities</h3>
           <div className="amenities-checkboxes">
-            {['wifi', 'parking', 'breakfast', 'pets'].map((amenity) => (
+            {["wifi", "parking", "breakfast", "pets"].map((amenity) => (
               <label key={amenity} className="checkbox-label">
                 <input
                   type="checkbox"
@@ -278,7 +278,7 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
             Cancel
           </button>
           <button type="submit" className="btn-submit" disabled={loading}>
-            {loading ? 'Saving...' : isEditing ? 'Update Venue' : 'Create Venue'}
+            {loading ? "Saving..." : isEditing ? "Update Venue" : "Create Venue"}
           </button>
         </div>
       </form>
