@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./venue-card.css";
 
-type VenueProps = {
+interface VenueProps {
   id: string;
   name: string;
   description?: string;
@@ -15,59 +15,57 @@ type VenueProps = {
     country?: string;
   };
   variant?: "list" | "detail";
-};
+}
 
-export default function VenueCard({
-  id,
-  name,
-  description,
-  price,
-  maxGuests,
-  rating,
-  media,
-  location,
-  variant = "list",
-}: VenueProps) {
+export default function VenueCard(props: VenueProps) {
+  const { 
+    id, name, description, price, maxGuests, 
+    rating, media, location, variant = "list" 
+  } = props;
+  
   const navigate = useNavigate();
+  
+  // Uses a placeholder image incase venue doesn't have a media url
+  const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1615800098779-1be32e60cca3?q=80&w=710&auto=format&fit=crop";
+
   return (
     <div className={`venue-card ${variant}`}>
-        <h2 className="venue-title">{name}</h2>
+      <h2 className="venue-title">{name}</h2>
       
       {media && media.length > 0 && (
-        <img src={media[0].url} alt={media[0].alt || name} onError={(e) => {
-          (e.currentTarget as HTMLImageElement).src = "https://images.unsplash.com/photo-1615800098779-1be32e60cca3?q=80&w=710&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-        }}/>
+        <img 
+          src={media[0].url} 
+          alt={media[0].alt || name} 
+          onError={(e) => (e.currentTarget.src = PLACEHOLDER_IMAGE)}
+        />
       )}
 
       <div className="venue-container">
         {variant === "detail" && description && <p>{description}</p>}
-
-        {location && (<div className="venue-location-rating">
-          <div>
-          {location.address && <p>Address: {location.address}</p>}
-          {location.city && <p>City: {location.city}</p>}
-          {location.country && <p>Country: {location.country}</p>}
-          </div>
-
-          {rating !== undefined && (
-            <div className="venue-rating">
-              <i className="bi bi-star-fill"></i>
-              <span>{rating.toFixed(1)}</span>
+        {location && (
+          <div className="venue-location-rating">
+            <div>
+              {location.address && <p>Address: {location.address}</p>}
+              {location.city && <p>City: {location.city}</p>}
+              {location.country && <p>Country: {location.country}</p>}
             </div>
-          )}
-        </div>
+
+            {rating !== undefined && (
+              <div className="venue-rating">
+                <i className="bi bi-star-fill"></i>
+                <span>{rating.toFixed(1)}</span>
+              </div>
+            )}
+          </div>
         )}
-
-        {price !== undefined && <p>Price: ${price}</p>}
-        {maxGuests !== undefined && <p>Max Guests: {maxGuests}</p>}
+        {typeof price === 'number' && <p>Price: ${price}</p>}
+        {typeof maxGuests === 'number' && <p>Max Guests: {maxGuests}</p>}
       </div>
-
       {variant === "list" && (
         <button
           className="details-button"
           onClick={() => navigate(`/venues/${id}`)}
-        >
-          View Venue
+        >View Venue
         </button>
       )}
     </div>

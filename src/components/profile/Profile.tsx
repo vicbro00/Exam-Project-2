@@ -1,6 +1,7 @@
 import { useState } from "react";
 import EditProfile from "./EditProfile";
 import { API_BASE_URL } from "../../services/api";
+import { getToken, getApiKey } from "../../services/auth";
 import { toast } from "react-toastify";
 import "./profile.css";
 
@@ -22,12 +23,13 @@ export default function Profile({ profile }: ProfileProps) {
 
   const handleSave = async (updatedProfile: ProfileData) => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = getToken();
       const userName = localStorage.getItem("userName");
+      const apiKey = getApiKey();
 
+      // If user is not logged in it throws an error
       if (!token || !userName) {
-        toast.error("You must be logged in to update your profile");
-        return;
+        throw new Error("You must be logged in to update your profile");
       }
 
       const res = await fetch(`${API_BASE_URL}/holidaze/profiles/${userName}`, {
@@ -35,24 +37,27 @@ export default function Profile({ profile }: ProfileProps) {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-          "X-Noroff-API-Key": "b430fe28-0dc4-4858-82db-a67e6f526c48",
+          "X-Noroff-API-Key": apiKey,
         },
         body: JSON.stringify(updatedProfile),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        toast.error("Failed to update profile");
+        throw new Error(data.errors?.[0]?.message || "Failed to update profile");
       }
 
-      const data = await res.json();
-      setCurrentProfile(data.data);
+      setCurrentProfile(data.data || data); 
       setIsEditing(false);
+      toast.success("Profile updated!");
     } catch (err) {
-      console.error(err);
+      console.error("Profile Update Error:", err);
       toast.error(err instanceof Error ? err.message : "An error occurred");
     }
   };
 
+  // Shows edit form if user clicks edit button
   if (isEditing) {
     return (
       <div className="profile-container">
@@ -74,27 +79,27 @@ export default function Profile({ profile }: ProfileProps) {
           alt={currentProfile.banner.alt || "Profile banner"}
         />
       )}
-
       <div className="profile-info">
-        {/* Avatar */}
-        {currentProfile.avatar?.url ? (
-          <img
-            className="profile-avatar"
-            src={currentProfile.avatar.url}
-            alt={currentProfile.avatar.alt || currentProfile.name}
-          />
-        ) : (
-          <i className="bi bi-person-circle profile-avatar"></i>
-        )}
-
-        {/* Profile details */}
+        <div className="avatar-wrapper">
+          {currentProfile.avatar?.url ? (
+            <img
+              className="profile-avatar"
+              src={currentProfile.avatar.url}
+              alt={currentProfile.avatar.alt || currentProfile.name}
+            />
+          ) : (
+            <i className="bi bi-person-circle profile-avatar"></i>
+          )}
+        </div>
         <div className="profile-details">
           <h1>{currentProfile.name}</h1>
-          <p>{currentProfile.email}</p>
-          {currentProfile.bio && <p>{currentProfile.bio}</p>}
-          <p>Username: {currentProfile.name}</p>
-
-          <button onClick={() => setIsEditing(true)}>Edit Profile</button>
+          <p className="profile-email">{currentProfile.email}</p>
+          {currentProfile.bio && <p className="profile-bio">{currentProfile.bio}</p>}
+          <button 
+            className="btn-edit-trigger" 
+            onClick={() => setIsEditing(true)}
+          >Edit Profile
+          </button>
         </div>
       </div>
     </div>

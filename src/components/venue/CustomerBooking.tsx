@@ -24,26 +24,26 @@ export default function CustomerBooking({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  if (!token) {
-    return <p>Please log in to book this venue.</p>;
-  }
-
-  if (venueManager) {
-    return <p>Venue managers cannot make bookings.</p>;
-  }
+  // Only customers can book a venue
+  if (!token) return <p className="auth-notice">Please log in to book this venue.</p>;
+  if (venueManager) return <p className="auth-notice">Venue managers cannot make bookings.</p>;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    
     setError(null);
     setSuccess(false);
 
+    // Booking is on available dates only, and at least one night
     if (!selectedDateFrom || !selectedDateTo) {
-      setError("Please select dates on the calendar above");
+      const msg = "Please select dates on the calendar above";
+      setError(msg);
+      toast.info(msg);
       return;
     }
 
-    if (new Date(selectedDateTo) <= new Date(selectedDateFrom)) {
-      setError("End date must be after start date");
+    if (selectedDateFrom === selectedDateTo) {
+      setError("Booking must be for at least one night");
       return;
     }
 
@@ -52,56 +52,52 @@ export default function CustomerBooking({
     try {
       const apiKey = getApiKey();
       
-      const res = await fetch(
-        "https://v2.api.noroff.dev/holidaze/bookings",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-            "X-Noroff-API-Key": apiKey,
-          },
-          body: JSON.stringify({
-            dateFrom: selectedDateFrom,
-            dateTo: selectedDateTo,
-            guests,
-            venueId,
-          }),
-        }
-      );
+      const res = await fetch("https://v2.api.noroff.dev/holidaze/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+          "X-Noroff-API-Key": apiKey,
+        },
+        body: JSON.stringify({
+          dateFrom: selectedDateFrom,
+          dateTo: selectedDateTo,
+          guests: Number(guests),
+          venueId,
+        }),
+      });
 
-      const data = await res.json();
+      const result = await res.json();
 
       if (!res.ok) {
-        console.error("Booking error:", data);
-        const errorMessage = data.errors?.[0]?.message || data.message || "Booking failed";
+        const errorMessage = result.errors?.[0]?.message || "Booking failed. Please check availability.";
         throw new Error(errorMessage);
       }
 
       setSuccess(true);
       setGuests(1);
-      toast.success("Booking confirmed!");
+      toast.success("Your booking is confirmed!");
     } catch (err) {
-      console.error("Booking error:", err);
-      setError(err instanceof Error ? err.message : "Could not create booking. Please try logging in again.");
-      toast.error(err instanceof Error ? err.message : "Could not create booking. Please try logging in again.");
+      const fallback = "Could not create booking. Please try again.";
+      setError(err instanceof Error ? err.message : fallback);
+      toast.error(err instanceof Error ? err.message : fallback);
     } finally {
       setLoading(false);
     }
-  } if (loading) return <Spinner />;
+  }
+
+  if (loading) return <Spinner />;
 
   return (
     <section className="customer-booking">
       <h3>Complete your booking</h3>
-
       {selectedDateFrom && selectedDateTo && (
         <div className="selected-dates">
           <p>
-            <strong>Selected dates:</strong> {new Date(selectedDateFrom).toLocaleDateString()} - {new Date(selectedDateTo).toLocaleDateString()}
+            <strong>Selected:</strong> {new Date(selectedDateFrom).toLocaleDateString()} - {new Date(selectedDateTo).toLocaleDateString()}
           </p>
         </div>
       )}
-
       <form onSubmit={handleSubmit}>
         <label>
           Number of guests
@@ -110,18 +106,20 @@ export default function CustomerBooking({
             min={1}
             max={maxGuests}
             value={guests}
-            onChange={(e) => setGuests(Number(e.target.value))}
+            onChange={(e) => setGuests(parseInt(e.target.value) || 1)}
             required
           />
-          <small>Maximum {maxGuests} guests</small>
+          <small>Up to {maxGuests} guests allowed</small>
         </label>
-
-        <button type="submit" disabled={loading || !selectedDateFrom || !selectedDateTo}>
-          {loading ? "Booking..." : "Confirm booking"}
+        <button 
+          type="submit" 
+          disabled={loading || !selectedDateFrom || !selectedDateTo}
+          className="btn-confirm-booking"
+        >
+          {loading ? "Processing..." : "Confirm booking"}
         </button>
-
-        {error && <p>{error}</p>}
-        {success && <p>Booking confirmed!</p>}
+        {error && <p className="error-message" role="alert">{error}</p>}
+        {success && <p className="success-message" role="status">Success! Booking confirmed.</p>}
       </form>
     </section>
   );

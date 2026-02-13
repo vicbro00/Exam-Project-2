@@ -11,15 +11,24 @@ interface EditProfileProps {
 }
 
 export default function EditProfile({ profile, onSave, onCancel }: EditProfileProps) {
-  const [bannerUrl, setBannerUrl] = useState(profile.banner?.url || "");
-  const [avatarUrl, setAvatarUrl] = useState(profile.avatar?.url || "");
-  const [name, setName] = useState(profile.name);
-  const [email, setEmail] = useState(profile.email);
-  const [bio, setBio] = useState(profile.bio || "");
+  const [formData, setFormData] = useState({
+    name: profile.name,
+    email: profile.email,
+    bio: profile.bio || "",
+    avatarUrl: profile.avatar?.url || "",
+    bannerUrl: profile.banner?.url || ""
+  });
+  
   const [loading, setLoading] = useState(false);
 
-  const isImageUrlValid = async (url: string): Promise<boolean> => {
-    if (!url) return true;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // Checks if the image URL is valid
+  const isImageUrlValid = (url: string): Promise<boolean> => {
+    if (!url) return Promise.resolve(true);
     return new Promise((resolve) => {
       const img = new Image();
       img.src = url;
@@ -28,42 +37,33 @@ export default function EditProfile({ profile, onSave, onCancel }: EditProfilePr
     });
   };
 
-  const handleBannerUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const url = e.target.value;
-    setBannerUrl(url);
-  };
-
-  const handleAvatarUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const url = e.target.value;
-    setAvatarUrl(url);
-  };
-
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    if (bannerUrl && !(await isImageUrlValid(bannerUrl))) {
-      toast.error("Banner URL is not a valid image");
-      return;
-    }
-    if (avatarUrl && !(await isImageUrlValid(avatarUrl))) {
-      toast.error("Avatar URL is not a valid image");
+    const { bannerUrl, avatarUrl, name, email, bio } = formData;
+
+    const [isBannerOk, isAvatarOk] = await Promise.all([
+      isImageUrlValid(bannerUrl),
+      isImageUrlValid(avatarUrl)
+    ]);
+
+    if (!isBannerOk || !isAvatarOk) {
+      toast.error("Please provide valid image URLs");
+      setLoading(false);
       return;
     }
 
+    // Updates the profile if data is valid
     onSave({
       ...profile,
       name,
       email,
       bio,
-      avatar: avatarUrl
-        ? { url: avatarUrl, alt: `${name}'s avatar` }
-        : undefined,
-      banner: bannerUrl
-        ? { url: bannerUrl, alt: `${name}'s banner` }
-        : undefined,
+      avatar: avatarUrl ? { url: avatarUrl, alt: `${name}'s avatar` } : undefined,
+      banner: bannerUrl ? { url: bannerUrl, alt: `${name}'s banner` } : undefined,
     });
+    
     toast.success("Profile updated successfully!");
   };
 
@@ -72,44 +72,40 @@ export default function EditProfile({ profile, onSave, onCancel }: EditProfilePr
   return (
     <form className="edit-profile-form" onSubmit={handleSubmit}>
       <h2>Edit Profile</h2>
-
-      {/* Name */}
       <label>
         Name:
-        <input value={name} onChange={(e) => setName(e.target.value)} />
+        <input name="name" value={formData.name} onChange={handleChange} />
       </label>
-
-      {/* Banner URL */}
-      {bannerUrl && (
-        <img src={bannerUrl} alt="Banner preview" onError={(e) => e.currentTarget.style.display = "none"} />
+      {formData.bannerUrl && (
+        <img 
+          src={formData.bannerUrl} 
+          alt="Banner preview" 
+          onError={(e) => (e.currentTarget.style.display = "none")} 
+        />
       )}
       <label>
         Banner URL:
-        <input value={bannerUrl} onChange={handleBannerUrlChange} />
+        <input name="bannerUrl" value={formData.bannerUrl} onChange={handleChange} />
       </label>
-
-      {/* Avatar URL */}
-      {avatarUrl && (
-        <img src={avatarUrl} alt="Avatar preview" onError={(e) => e.currentTarget.style.display = "none"} />
+      {formData.avatarUrl && (
+        <img 
+          src={formData.avatarUrl} 
+          alt="Avatar preview" 
+          onError={(e) => (e.currentTarget.style.display = "none")} 
+        />
       )}
       <label>
         Avatar URL:
-        <input value={avatarUrl} onChange={handleAvatarUrlChange} />
+        <input name="avatarUrl" value={formData.avatarUrl} onChange={handleChange} />
       </label>
-
-      {/* Email */}
       <label>
         Email:
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input name="email" type="email" value={formData.email} onChange={handleChange} />
       </label>
-
-      {/* Bio */}
       <label>
         Bio:
-        <textarea value={bio} onChange={(e) => setBio(e.target.value)} />
+        <textarea name="bio" value={formData.bio} onChange={handleChange} />
       </label>
-
-      {/* Action buttons */}
       <div className="form-buttons">
         <button type="submit">Save</button>
         <button type="button" onClick={onCancel}>Cancel</button>

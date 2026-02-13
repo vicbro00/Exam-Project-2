@@ -7,14 +7,18 @@ interface SearchProps {
   onFilterChange: (value: string) => void;
 }
 
-export default function Search({
-  value,
-  onChange,
-  filter,
-  onFilterChange,
-}: SearchProps) {
-  const [open, setOpen] = useState(false);
-  
+export default function Search({ value, onChange, filter, onFilterChange }: SearchProps) {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // Handles search and filter inputs
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  };
+
+  const handleFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onFilterChange(e.target.value);
+  };
+
   return (
     <div className="search-wrapper">
       <div className="search-input">
@@ -22,19 +26,21 @@ export default function Search({
           type="text"
           placeholder="Search venues..."
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={handleSearch}
           className="venue-search"
         />
         <i
           className="bi bi-funnel filter-icon"
-          onClick={() => setOpen(!open)}
+          onClick={() => setIsFilterOpen(!isFilterOpen)}
+          style={{ cursor: 'pointer' }}
         ></i>
       </div>
-      {open && (
+      {/* Shows filters when icon is clicked */}
+      {isFilterOpen && (
         <div className="filter-dropdown">
           <select
             value={filter}
-            onChange={(e) => onFilterChange(e.target.value)}
+            onChange={handleFilter}
           >
             <option value="">No filter</option>
             <option value="price-low">Price: Low to High</option>
