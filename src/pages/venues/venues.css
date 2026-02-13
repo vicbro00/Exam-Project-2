@@ -42,3 +42,18 @@ input::placeholder {
   background-color: #4F8EF7;
   color: white;
 }
+
+/* Pages */
+.pages-number {
+  display: none;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+}
+
+.pages-text {
+  text-align: center;
+}

@@ -33,7 +33,7 @@ interface VenueCardProps {
 }
 
 export default function VenueCard({ venue, onEdit, onDelete }: VenueCardProps) {
-  const imageUrl = venue.media?.[0]?.url || "https://via.placeholder.com/300x200?text=No+Image";
+  const imageUrl = venue.media?.[0]?.url || "https://images.unsplash.com/photo-1615800098779-1be32e60cca3?q=80&w=710&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
   return (
     <div className="venue-card">
@@ -41,6 +41,9 @@ export default function VenueCard({ venue, onEdit, onDelete }: VenueCardProps) {
         src={imageUrl} 
         alt={venue.media?.[0]?.alt || venue.name}
         className="venue-card-image"
+        onError={(e) => {
+          (e.currentTarget as HTMLImageElement).src = "https://images.unsplash.com/photo-1615800098779-1be32e60cca3?q=80&w=710&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+        }}
       />
       
       <div className="venue-card-content">

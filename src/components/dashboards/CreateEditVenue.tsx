@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getToken, getApiKey } from "../../services/auth";
 import { toast } from "react-toastify";
 import "./create-edit-venue.css";
+import Spinner from "../Spinner";
 
 interface Venue {
   id?: string;
@@ -122,6 +123,8 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
       setLoading(false);
     }
   }
+
+  if (loading) return <Spinner />;
 
   return (
   <div className="venue-overlay" onClick={onClose}>

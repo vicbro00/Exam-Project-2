@@ -34,7 +34,9 @@ export default function VenueCard({
         <h2 className="venue-title">{name}</h2>
       
       {media && media.length > 0 && (
-        <img src={media[0].url} alt={media[0].alt || name} />
+        <img src={media[0].url} alt={media[0].alt || name} onError={(e) => {
+          (e.currentTarget as HTMLImageElement).src = "https://images.unsplash.com/photo-1615800098779-1be32e60cca3?q=80&w=710&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+        }}/>
       )}
 
       <div className="venue-container">

@@ -14,7 +14,7 @@ export default function Search({
   onFilterChange,
 }: SearchProps) {
   const [open, setOpen] = useState(false);
-
+  
   return (
     <div className="search-wrapper">
       <div className="search-input">
