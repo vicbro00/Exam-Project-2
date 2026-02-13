@@ -15,6 +15,7 @@ export default function ProfileHeader() {
             {user?.avatar ? (
               <img src={user.avatar} alt={user.name} className="avatar-img" />
             ) : (
+              // Bootstrap icon as fallback incase user doesn't have an avatar
               <i className="bi bi-person-circle avatar-icon"></i>
             )}
           </Link>
