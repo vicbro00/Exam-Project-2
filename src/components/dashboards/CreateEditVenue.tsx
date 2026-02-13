@@ -33,6 +33,7 @@ interface CreateEditVenueProps {
 export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEditVenueProps) {
   const isEditing = !!venue;
   
+  // Pre edits the form data if editing an existing venue, otherwise empty values
   const [formData, setFormData] = useState({
     name: venue?.name || "",
     description: venue?.description || "",
@@ -53,13 +54,12 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
   const [error, setError] = useState<string | null>(null);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    const target = e.target as HTMLInputElement;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const { name, type, value } = e.target;
     
-    setFormData(prev => ({
-      ...prev,
-      [target.name]: value
-    }));
+    // Handles checkbox separately to get checked value instead
+    const finalValue = type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
+    
+    setFormData(prev => ({ ...prev, [name]: finalValue }));
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -71,28 +71,22 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
       const token = getToken();
       const apiKey = getApiKey();
 
-      const payload = {
-        name: formData.name,
-        description: formData.description,
-        price: Number(formData.price),
-        maxGuests: Number(formData.maxGuests),
-        media: formData.mediaUrl ? [{ url: formData.mediaUrl, alt: formData.mediaAlt }] : [],
-        location: {
-          address: formData.address,
-          city: formData.city,
-          country: formData.country,
-        },
-        meta: {
-          wifi: formData.wifi,
-          parking: formData.parking,
-          breakfast: formData.breakfast,
-          pets: formData.pets,
-        },
+      // Macthes the API structure
+      const { name, description, price, maxGuests, address, city, country, mediaUrl, mediaAlt, ...amenities } = formData;
+
+      const venueData = {
+        name,
+        description,
+        price: Number(price),
+        maxGuests: Number(maxGuests),
+        media: mediaUrl ? [{ url: mediaUrl, alt: mediaAlt }] : [],
+        location: { address, city, country },
+        meta: { ...amenities }, // wifi, parking, breakfast, pets
       };
 
-      const url = isEditing
-        ? `https://v2.api.noroff.dev/holidaze/venues/${venue.id}`
-        : "https://v2.api.noroff.dev/holidaze/venues";
+      // Determines endpoint based on create or editing
+      const baseUrl = "https://v2.api.noroff.dev/holidaze/venues";
+      const url = isEditing ? `${baseUrl}/${venue.id}` : baseUrl; 
       
       const method = isEditing ? "PUT" : "POST";
 
@@ -103,7 +97,7 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
           "Authorization": `Bearer ${token}`,
           "X-Noroff-API-Key": apiKey,
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(venueData),
       });
 
       const data = await res.json();
@@ -128,21 +122,17 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
 
   return (
   <div className="venue-overlay" onClick={onClose}>
+    {/* Click outside to close, prevents closing when clicking inside the form */}
     <div className="venue-container" onClick={(e) => e.stopPropagation()}>
       
-      {/* Header */}
       <div className="venue-header">
         <h2>{isEditing ? "Edit Venue" : "Create New Venue" }</h2>
         <button className="btn-close" onClick={onClose}></button>
       </div>
 
-      {/* Form */}
       <form onSubmit={handleSubmit} className="venue-form">
-
-        {/* Basic Info */}
         <div className="form-section">
           <h3>Basic Information</h3>
-
           <label>
             Venue Name *
             <input
@@ -153,7 +143,6 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
               required
             />
           </label>
-
           <label>
             Description *
             <textarea
@@ -165,8 +154,6 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
             />
           </label>
         </div>
-
-        {/* Price & Guests */}
         <div className="form-section form-row">
           <label>
             Price per Night *
@@ -179,7 +166,6 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
               required
             />
           </label>
-
           <label>
             Max Guests *
             <input
@@ -192,11 +178,8 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
             />
           </label>
         </div>
-
-        {/* Image */}
         <div className="form-section">
           <h3>Image</h3>
-
           <label>
             Image URL
             <input
@@ -206,7 +189,6 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
               onChange={handleChange}
             />
           </label>
-
           <label>
             Image Description
             <input
@@ -217,11 +199,8 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
             />
           </label>
         </div>
-
-        {/* Location */}
         <div className="form-section">
           <h3>Location</h3>
-
           <label>
             Address
             <input
@@ -231,7 +210,6 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
               onChange={handleChange}
             />
           </label>
-
           <div className="form-row">
             <label>
               City
@@ -242,7 +220,6 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
                 onChange={handleChange}
               />
             </label>
-
             <label>
               Country
               <input
@@ -254,8 +231,6 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
             </label>
           </div>
         </div>
-
-        {/* Amenities */}
         <div className="form-section">
           <h3>Amenities</h3>
           <div className="amenities">
@@ -272,11 +247,7 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
             ))}
           </div>
         </div>
-
-        {/* Error */}
         {error && <p className="error">{error}</p>}
-
-        {/* Actions */}
         <div className="form-actions">
           <button type="button" className="btn-cancel" onClick={onClose}>
             Cancel

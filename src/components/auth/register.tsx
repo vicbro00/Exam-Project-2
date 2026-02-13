@@ -1,71 +1,63 @@
 import { useState } from "react";
-import React from "react";
 import { API_BASE_URL, REGISTER_ENDPOINT } from "../../services/api";
 import { toast } from "react-toastify";
 
 export function RegisterForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: ""
-  });
-
+  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [userType, setUserType] = useState("customer");
-
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-    setError("");
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (error) setError("");
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!formData.email.endsWith("@stud.noroff.no")) {
-      setError("You must register with a stud.noroff.no email");
-      return;
+      return setError("Please use your @stud.noroff.no email address.");
     }
 
-      try {
-        const response = await fetch(`${API_BASE_URL}${REGISTER_ENDPOINT}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ 
-            name: formData.name, 
-            email: formData.email, 
-            password: formData.password,
-            venueManager: userType === "venueManager"
-          })
-        });
+    /* Registers a new user by sending information to api endpoint. */
+    try {
+      const response = await fetch(`${API_BASE_URL}${REGISTER_ENDPOINT}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          ...formData,
+          venueManager: userType === "venueManager"
+        })
+      });
 
-        const data = await response.json();
+      const result = await response.json();
 
-        if (!response.ok) {
-          setError(data.errors[0].message);
-          toast.error(data.errors[0].message);
-          return;
-        }
-        setIsSuccess(true);
-        setFormData({ name: "", email: "", password: "" });
-      } catch (error) {
-        console.error("Error during registration:", error);
-        toast.error("An error occurred during registration. Please try again.");
-      } toast.success("Registration successful! You can now log in.")
-    };
+      if (!response.ok) {
+        const errorMsg = result.errors?.[0]?.message || "Registration failed";
+        setError(errorMsg);
+        return toast.error(errorMsg);
+      }
+
+      setIsSuccess(true);
+      toast.success("Welcome! You're all set to log in.");
+      setFormData({ name: "", email: "", password: "" });
+
+    } catch (err) {
+      console.error("Auth error:", err);
+      toast.error("Something went wrong. Please try again later.");
+    }
+  };
+
+  if (isSuccess) {
+    return <div className="success-msg">Registration successful! You can now log in.</div>;
+  }
 
   return (
     <div>
       {!isSuccess ? (
         <form className="register-input" onSubmit={handleSubmit}>
-      {/* Name */}
       Name:
       <input
         type="text"
@@ -75,7 +67,6 @@ export function RegisterForm() {
         onChange={handleChange}
       />
       Email:
-      {/* Email */}
       <input
         type="email"
         name="email"
@@ -84,7 +75,6 @@ export function RegisterForm() {
         onChange={handleChange}
       />
       Password:
-      {/* Password */}
       <input
         type="password"
         name="password"
@@ -92,8 +82,7 @@ export function RegisterForm() {
         value={formData.password}
         onChange={handleChange}
       />
-       {/* User Type */}
-      <select value={userType} onChange={(e) => setUserType(e.target.value)}>
+      <select value={userType} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setUserType(e.target.value)}>
         <option value="customer">Customer</option>
         <option value="venueManager">Venue Manager</option>
       </select>
