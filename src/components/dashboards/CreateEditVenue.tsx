@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { getToken, getApiKey } from "../../services/auth";
-import { toast } from "react-toastify";
 import "./create-edit-venue.css";
 import Spinner from "../Spinner";
 
@@ -106,7 +105,6 @@ export default function CreateEditVenue({ venue, onClose, onSuccess }: CreateEdi
         throw new Error(data.errors?.[0]?.message || "Failed to save venue");
       }
 
-      toast.success(`Venue ${isEditing ? "updated" : "created"} successfully!`);
       onSuccess();
       onClose();
       

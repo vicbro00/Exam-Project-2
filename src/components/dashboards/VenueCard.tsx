@@ -65,10 +65,10 @@ export default function VenueCard({ venue, onEdit, onDelete }: VenueCardProps) {
         </div>
         {meta && (
           <div className="venue-amenities">
-            {meta.wifi && <span>📶 WiFi</span>}
-            {meta.parking && <span>🅿️ Parking</span>}
-            {meta.breakfast && <span>🍳 Breakfast</span>}
-            {meta.pets && <span>🐕 Pets</span>}
+            {meta.wifi && <span>WiFi</span>}
+            {meta.parking && <span>Parking</span>}
+            {meta.breakfast && <span>Breakfast</span>}
+            {meta.pets && <span>Pets</span>}
           </div>
         )}
         <div className="venue-card-actions">

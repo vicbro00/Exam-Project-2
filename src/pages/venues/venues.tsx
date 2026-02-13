@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { API_BASE_URL } from "../../services/api";
 import VenueCard from "../../components/home/VenueCard";
 import Search from "../../components/home/Search";
@@ -28,19 +28,20 @@ export default function Venues() {
     async function fetchVenues() {
       setLoading(true);
       try {
-        const res = await fetch(
-          `${API_BASE_URL}/holidaze/venues?limit=${VENUES_PER_PAGE}&page=${page}&sort=created&sortOrder=desc`
-        );
+        const url = `${API_BASE_URL}/holidaze/venues?limit=${VENUES_PER_PAGE}&page=${page}&sort=created&sortOrder=desc`;
+        const res = await fetch(url);
+        
+        if (!res.ok) throw new Error("Failed to fetch venues");
+        
         const data = await res.json();
         setVenues(data.data || []);
 
+        // Calculates total pages based on API
         if (data.meta?.totalCount) {
           setTotalPages(Math.ceil(data.meta.totalCount / VENUES_PER_PAGE));
-        } else {
-          setTotalPages(1);
         }
       } catch (error) {
-        console.error("Error fetching venues:", error);
+        console.error("Fetch error:", error);
       } finally {
         setLoading(false);
       }
@@ -49,97 +50,87 @@ export default function Venues() {
     fetchVenues();
   }, [page]);
 
-  const filteredVenues = venues
-    .filter((venue) =>
-      venue.name.toLowerCase().includes(search.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (filter === "price-low") return a.price - b.price;
-      if (filter === "price-high") return b.price - a.price;
-      if (filter === "rating") return b.rating - a.rating;
-      return 0;
-    });
+  const filteredVenues = useMemo(() => {
+    let result = [...venues];
+
+    if (search) {
+      result = result.filter((v) => 
+        v.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    if (filter === "price-low") result.sort((a, b) => a.price - b.price);
+    if (filter === "price-high") result.sort((a, b) => b.price - a.price);
+    if (filter === "rating") result.sort((a, b) => b.rating - a.rating);
+
+    return result;
+  }, [venues, search, filter]);
 
   useEffect(() => {
     setPage(1);
   }, [search, filter]);
 
-  const goToNextPage = () => {
-    if (page < totalPages) setPage(page + 1);
-  };
-
-  const goToPrevPage = () => {
-    if (page > 1) setPage(page - 1);
-  };
-
-  const goToPage = (pageNum: number) => {
-    setPage(pageNum);
-  };
-
-  if (loading) return <Spinner />;
+  const goToPage = (pageNum: number) => setPage(pageNum);
 
   return (
-    <div className="venues-page">
+    <main className="venues-page">
       <Search
         value={search}
         onChange={setSearch}
         filter={filter}
         onFilterChange={setFilter}
       />
-
-      {filteredVenues.length === 0 && <p>No venues found.</p>}
-
-      <div className="venues-grid">
-        {filteredVenues.map((venue) => (
-          <VenueCard
-            key={venue.id}
-            {...venue}
-            name={venue.name}
-            variant="list"
-          />
-        ))}
-      </div>
-
-      {/* Pages Controls */}
-      {totalPages > 1 && (
-        <div className="pagination">
-          <button
-            onClick={goToPrevPage}
-            disabled={page === 1}
-            className="previous-btn"
-          >
-            Previous
-          </button>
-
-          <div className="pages-number">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-              (pageNum) => (
-                <button
-                  key={pageNum}
-                  onClick={() => goToPage(pageNum)}
-                  className={`pagination-number ${
-                    page === pageNum ? "active" : ""
-                  }`}
-                >
-                  {pageNum}
-                </button>
-              )
-            )}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          {filteredVenues.length === 0 ? (
+            <div className="no-results">
+              <p>No venues match your search. Try a different term!</p>
+            </div>
+          ) : (
+            <div className="venues-grid">
+              {filteredVenues.map((venue) => (
+                <VenueCard
+                  key={venue.id}
+                  {...venue}
+                  variant="list"
+                />
+              ))}
+            </div>
+          )}
+          {totalPages > 1 && (
+            <nav className="pagination" aria-label="Venue navigation">
+              <button
+                onClick={() => goToPage(page - 1)}
+                disabled={page === 1}
+                className="previous-btn"
+              >Previous
+              </button>
+              <div className="pages-number">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    onClick={() => goToPage(pageNum)}
+                    className={`pagination-number ${page === pageNum ? "active" : ""}`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={() => goToPage(page + 1)}
+                disabled={page === totalPages}
+                className="next-btn"
+              >Next
+              </button>
+            </nav>
+          )}
+          <div className="pages-text">
+            Showing page {page} of {totalPages}
           </div>
-
-          <button
-            onClick={goToNextPage}
-            disabled={page === totalPages}
-            className="next-btn"
-          >
-            Next
-          </button>
-        </div>
+        </>
       )}
-
-      <div className="pages-text">
-        Page {page} of {totalPages}
-      </div>
-    </div>
+    </main>
   );
 }

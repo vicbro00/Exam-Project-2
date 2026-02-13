@@ -4,8 +4,9 @@ import { isLoggedIn, isVenueManager, getToken, getApiKey } from "../../services/
 import UpcomingBookings from "../../components/dashboards/UpcomingBookings";
 import VenueCard from "../../components/dashboards/VenueCard";
 import CreateEditVenue from "../../components/dashboards/CreateEditVenue";
-import "./venue-manager-dashboard.css";
+import "./../customer-dashboard/dashboard.css";
 import Spinner from "../../components/Spinner";
+import { toast } from "react-toastify";
 
 interface VenueMedia {
   url: string;
@@ -38,7 +39,6 @@ interface Venue {
 export default function VenueManagerDashboard() {
   const navigate = useNavigate();
   const userName = localStorage.getItem("userName");
-  
   const loggedIn = isLoggedIn();
   const isManager = isVenueManager();
 
@@ -53,32 +53,23 @@ export default function VenueManagerDashboard() {
       const token = getToken();
       const apiKey = getApiKey();
 
-      if (!userName || !token) {
-        setError("Not authenticated");
-        setLoading(false);
-        return;
-      }
+      if (!userName || !token) throw new Error("Authentication credentials missing");
 
-      const res = await fetch(
-        `https://v2.api.noroff.dev/holidaze/profiles/${userName}/venues`,
-        {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "X-Noroff-API-Key": apiKey,
-          },
-        }
-      );
+      const res = await fetch(`https://v2.api.noroff.dev/holidaze/profiles/${userName}/venues`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "X-Noroff-API-Key": apiKey,
+        },
+      });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.errors?.[0]?.message || "Failed to fetch venues");
-      }
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.errors?.[0]?.message || "Failed to load your venues");
 
-      const data = await res.json();
-      setVenues(data.data);
+      setVenues(result.data || []);
     } catch (err) {
-      console.error("Error fetching venues:", err);
-      setError(err instanceof Error ? err.message : "Could not load venues");
+      const msg = err instanceof Error ? err.message : "Could not load venues";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -86,82 +77,64 @@ export default function VenueManagerDashboard() {
 
   useEffect(() => {
     if (!loggedIn) {
-      navigate("/login");
+      navigate("/login", { replace: true });
     } else if (!isManager) {
-      navigate("/customer-dashboard");
+      navigate("/customer-dashboard", { replace: true });
     } else {
       fetchVenues();
     }
   }, [navigate, loggedIn, isManager, fetchVenues]);
 
+  //Confirms venue delete
   async function handleDelete(venueId: string) {
-    if (!window.confirm("Are you sure you want to delete this venue?")) {
-      return;
-    }
+    const confirmDelete = window.confirm("Are you sure you want to delete this venue?");
+    if (!confirmDelete) return;
 
     try {
       const token = getToken();
       const apiKey = getApiKey();
 
-      const res = await fetch(
-        `https://v2.api.noroff.dev/holidaze/venues/${venueId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "X-Noroff-API-Key": apiKey,
-          },
-        }
-      );
+      const res = await fetch(`https://v2.api.noroff.dev/holidaze/venues/${venueId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "X-Noroff-API-Key": apiKey,
+        },
+      });
 
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.errors?.[0]?.message || "Failed to delete venue");
+        const result = await res.json();
+        throw new Error(result.errors?.[0]?.message || "Delete failed");
       }
 
-      // Delete venue
-      setVenues(venues.filter(v => v.id !== venueId));
-      alert("Venue deleted successfully!");
+      setVenues(prev => prev.filter(v => v.id !== venueId));
+      toast.success("Venue successfully removed");
     } catch (err) {
-      console.error("Error deleting venue:", err);
-      alert(err instanceof Error ? err.message : "Failed to delete venue");
+      toast.error(err instanceof Error ? err.message : "Error deleting venue");
     }
   }
 
-  function handleCreateNew() {
-    setEditingVenue(null);
-    setShowCreateEdit(true);
-  }
-
-  function handleEdit(venue: Venue) {
-    setEditingVenue(venue);
-    setShowCreateEdit(true);
-  }
-
-  function handleCloseModal() {
-    setShowCreateEdit(false);
-    setEditingVenue(null);
-  }
-
-  function handleSuccess() {
+  const handleCreateNew = () => { setEditingVenue(null); setShowCreateEdit(true); };
+  const handleEdit = (venue: Venue) => { setEditingVenue(venue); setShowCreateEdit(true); };
+  const closeForm = () => { setShowCreateEdit(false); setEditingVenue(null); };
+  
+  // Refreshes list and shows message after creating or editing
+  const handleSuccess = () => {
+    closeForm();
     fetchVenues();
-  }
+    toast.success(editingVenue ? "Venue updated!" : "New venue created!");
+  };
 
-  if (!loggedIn || !isManager) {
-    return null;
-  }
-
+  if (!loggedIn || !isManager) return null;
   if (loading) return <Spinner />;
 
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
         <h1>Venue Manager Dashboard</h1>
-        <p>Welcome back, {userName || "Manager"}!</p>
+        <p>Welcome back, <strong>{userName}</strong></p>
       </header>
-
       <div className="dashboard-content">
-        {/* Venues Section */}
         <section className="manager-venues">
           <div className="venues-header">
             <h3>Your Venues</h3>
@@ -169,11 +142,12 @@ export default function VenueManagerDashboard() {
               <i className="bi bi-plus-circle"></i> Create New Venue
             </button>
           </div>
-
-          {loading && <p>Loading venues...</p>}
-          {error && <p className="error">{error}</p>}
-
-          {!loading && !error && venues.length > 0 && (
+          {error && <p className="error-message" role="alert">{error}</p>}
+          {!error && venues.length === 0 ? (
+            <div className="empty-state">
+              <p>You haven't created any venues yet.</p>
+            </div>
+          ) : (
             <div className="venues-grid">
               {venues.map((venue) => (
                 <VenueCard
@@ -186,16 +160,12 @@ export default function VenueManagerDashboard() {
             </div>
           )}
         </section>
-
-        {/* Bookings Section */}
         <UpcomingBookings isManager={true} />
       </div>
-
-      {/* Create/Edit */}
       {showCreateEdit && (
         <CreateEditVenue
           venue={editingVenue}
-          onClose={handleCloseModal}
+          onClose={closeForm}
           onSuccess={handleSuccess}
         />
       )}

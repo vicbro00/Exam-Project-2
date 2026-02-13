@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./profile.css";
 import type { ProfileData } from "../../components/profile/Profile";
 import { API_BASE_URL } from "../../services/api";
+import { getToken, getApiKey } from "../../services/auth";
 import Profile from "../../components/profile/Profile";
 import Spinner from "../../components/Spinner";
 
@@ -11,41 +12,60 @@ export default function ProfilePage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    // Retrieves user profile from API
+    const loadUserData = async () => {
       try {
         const userName = localStorage.getItem("userName");
-        const token = localStorage.getItem("accessToken");
+        const token = getToken(); 
+        const apiKey = getApiKey();
 
+        // Validates that user is logged in
         if (!userName || !token) {
-          setError("Please log in to view your profile");
-          setLoading(false);
-          return;
+          throw new Error("You must be logged in to view this page");
         }
 
         const res = await fetch(`${API_BASE_URL}/holidaze/profiles/${userName}`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "X-Noroff-API-Key": "b430fe28-0dc4-4858-82db-a67e6f526c48",
+            "X-Noroff-API-Key": apiKey,
           },
         });
 
-        if (!res.ok) throw new Error("Failed to fetch profile");
+        const result = await res.json();
 
-        const data = await res.json();
-        setProfile(data.data);
+        if (!res.ok) {
+          throw new Error(result.errors?.[0]?.message || "Could not retrieve profile");
+        }
+
+        setProfile(result.data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
+        const message = err instanceof Error ? err.message : "An unexpected error occurred";
+        setError(message);
+        console.error("Profile Fetch Error:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProfile();
+    loadUserData();
   }, []);
 
   if (loading) return <Spinner />;
-  if (error) return <div>{error}</div>;
-  if (!profile) return <div>No profile data found</div>;
 
-  return <Profile profile={profile} />;
+  if (error) {
+    return (
+      <div className="profile-error-container">
+        <p className="error-text">{error}</p>
+        <button onClick={() => window.location.reload()}>Try Again</button>
+      </div>
+    );
+  }
+
+  if (!profile) return <div className="profile-error-container">Profile not found</div>;
+
+  return (
+    <main className="profile-page-wrapper">
+      <Profile profile={profile} />
+    </main>
+  );
 }

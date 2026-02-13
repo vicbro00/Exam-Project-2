@@ -1,21 +1,35 @@
+import { useEffect } from "react";
 import { RegisterForm } from "../../components/auth/Register.tsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { isLoggedIn } from "../../services/auth";
 import "./register.css";
 
-function RegisterPage() {
+export default function RegisterPage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirects user to profile if already logged in
+    if (isLoggedIn()) {
+      navigate("/profile", { replace: true });
+    }
+  }, [navigate]);
+
   return (
-    <div className="register-container">
-      <div className="register-title">
-        Sign up
-      </div>
-      <div className="register-form">
-        <RegisterForm />
-      </div>
-      <div className="already-logged-in">
-        <p>Already have an account? <Link to="/login" className="login-link">Sign in</Link></p>
-      </div>
-    </div>
+    <main className="auth-page-wrapper">
+      <section className="register-container">
+        <h1 className="register-title">Sign up</h1>
+        <div className="register-form-wrapper">
+          <RegisterForm />
+        </div>
+        <footer className="already-logged-in">
+          <p>
+            Already have an account?{" "}
+            <Link to="/login" className="login-link">
+              Sign in
+            </Link>
+          </p>
+        </footer>
+      </section>
+    </main>
   );
 }
-
-export default RegisterPage;

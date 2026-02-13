@@ -98,3 +98,7 @@ form button {
   text-align: center;
   margin: 2rem 0;
 }
+
+.auth-notice {
+  text-align: center;
+}

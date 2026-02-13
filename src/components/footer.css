@@ -6,13 +6,18 @@
   background-color: #4F8EF7;
   color: #EBEEF4;
   height: auto;
-  width: 100vw;
 }
 
-.footer ul {
+.footer-nav ul {
   list-style: none;
 }
 
-.footer i {
+.footer-nav ul li a {
+  color: #EBEEF4;
+  text-decoration: none;
+}
+
+.footer-socials a {
   margin: 0 4px;
+  color: #EBEEF4;
 }

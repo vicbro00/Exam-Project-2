@@ -17,15 +17,16 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   gap: 1em;
+  min-height: 240px;
+  min-width: 247px;
 }
 
 .booking-details {
   background-color: #F5F3EF;
-  max-width: 25%;
 }
 
 .dashboard-container img {
-  width: 50%;
+  width: 14em;
 }
 
 .dashboard-header {
@@ -38,7 +39,38 @@
   margin-bottom: 1em;
 }
 
+/* Manager dashboard */
+.venues-header,
+.upcoming-bookings,
+.empty-state {
+  text-align: center;
+  margin: 2em 0;
+}
+
+.venue-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.venue-card {
+  display: flex;
+  align-items: center;
+}
+
+.btn-delete {
+  background-color: #F28C8C;
+  color: #1F2937;
+  cursor: pointer;
+}
+
 @media (min-width: 768px) {
+  .booking-item {
+    min-width: 584px;
+    min-height: 335px;
+  }
+  
   .upcoming-bookings .bookings-list {
     display: grid;
     justify-items: center;

@@ -1,26 +1,33 @@
+import { Link } from 'react-router-dom';
 import './footer.css';
 
-function Footer() {
+export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="footer">
-      <div>
-        © 2026 Holidaze
+      <div className="footer-copyright">
+        © {currentYear} Holidaze
       </div>
-      <div>
+      <div className="footer-nav">
         <ul>
-          <li>Venues</li>
-          <li>Dashboard</li>
-          <li>Log in</li>
-          <li>Register</li>
+          <li><Link to="/">Venues</Link></li>
+          <li><Link to="/profile">Dashboard</Link></li>
+          <li><Link to="/login">Log in</Link></li>
+          <li><Link to="/register">Register</Link></li>
         </ul>
       </div>
-      <div>
-        <i className="bi bi-instagram"></i>
-        <i className="bi bi-facebook"></i>
-        <i className="bi bi-twitter-x"></i>
+      <div className="footer-socials">
+        <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noreferrer">
+          <i className="bi bi-instagram"></i>
+        </a>
+        <a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noreferrer">
+          <i className="bi bi-facebook"></i>
+        </a>
+        <a href="https://twitter.com" aria-label="Twitter" target="_blank" rel="noreferrer">
+          <i className="bi bi-twitter-x"></i>
+        </a>
       </div>
     </footer>
   );
 }
-
-export default Footer;

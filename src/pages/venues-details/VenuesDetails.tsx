@@ -27,46 +27,71 @@ export default function VenueDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const [venue, setVenue] = useState<Venue | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedDateFrom, setSelectedDateFrom] = useState<string | null>(null);
   const [selectedDateTo, setSelectedDateTo] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!id) return;
+
     async function fetchVenue() {
-      const res = await fetch(`${API_BASE_URL}/holidaze/venues/${id}`);
-      const data = await res.json();
-      const venueData = {
-        ...data.data,
-        location: typeof data.data.location === "string"
-          ? { address: data.data.location }
-          : data.data.location,
-      };
-      setVenue(venueData);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const res = await fetch(`${API_BASE_URL}/holidaze/venues/${id}?_bookings=true`);
+        
+        if (!res.ok) throw new Error("Could not find the requested venue");
+
+        const data = await res.json();
+        
+        const rawLocation = data.data.location;
+        const venueData = {
+          ...data.data,
+          location: typeof rawLocation === "string"
+            ? { address: rawLocation }
+            : rawLocation || { address: "Address unknown" }, 
+        };
+
+        setVenue(venueData);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setLoading(false);
+      }
     }
+
     fetchVenue();
   }, [id]);
 
   if (loading) return <Spinner />;
-  if (!venue) return <p>Venue not found</p>;
+  
+  // Shows error if venue not found
+  if (error || !venue) {
+    return (
+      <div className="error-container">
+        <p>{error || "Venue not found"}</p>
+        <button onClick={() => window.history.back()}>Go Back</button>
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <main className="venue-details-container">
       <VenueCard {...venue} variant="detail" />
-      
-      <VenueCalendar 
-        venueId={venue.id}
-        onDateSelect={(dateFrom, dateTo) => {
-          setSelectedDateFrom(dateFrom);
-          setSelectedDateTo(dateTo);
-        }}
-      />
-      
-      <CustomerBooking
-        venueId={venue.id}
-        maxGuests={venue.maxGuests}
-        selectedDateFrom={selectedDateFrom}
-        selectedDateTo={selectedDateTo}
-      />
-    </div>
+      <section className="booking-section">
+        <VenueCalendar 
+          venueId={venue.id}
+          onDateSelect={(dateFrom, dateTo) => {
+            setSelectedDateFrom(dateFrom);
+            setSelectedDateTo(dateTo);
+          }}
+        />
+        <CustomerBooking
+          venueId={venue.id}
+          maxGuests={venue.maxGuests}
+          selectedDateFrom={selectedDateFrom}
+          selectedDateTo={selectedDateTo}
+        />
+      </section>
+    </main>
   );
 }

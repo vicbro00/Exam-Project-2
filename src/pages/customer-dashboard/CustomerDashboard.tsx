@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { isLoggedIn, isVenueManager } from "../../services/auth";
 import UpcomingBookings from "../../components/dashboards/UpcomingBookings";
-import "./customer-dashboard.css";
+import "./dashboard.css";
 
 export default function CustomerDashboard() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function CustomerDashboard() {
       navigate("/venueManagerDashboard");
     }
   }, [navigate]);
-
+  
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
