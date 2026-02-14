@@ -17,7 +17,7 @@ export default function LoginPage() {
   return (
     <div className="login-page-wrapper">
       <section className="login-container">
-        <h1 className="login-title">Sign in</h1>
+        <h2 className="login-title">Sign in</h2>
         <div className="login-form-content">
           <LoginForm />
         </div>

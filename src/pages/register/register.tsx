@@ -17,7 +17,7 @@ export default function RegisterPage() {
   return (
     <div className="auth-page-wrapper">
       <section className="register-container">
-        <h1 className="register-title">Sign up</h1>
+        <h2 className="register-title">Sign up</h2>
         <div className="register-form-wrapper">
           <RegisterForm />
         </div>

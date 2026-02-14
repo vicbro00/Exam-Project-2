@@ -131,13 +131,13 @@ export default function VenueManagerDashboard() {
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
-        <h1>Venue Manager Dashboard</h1>
+        <h2>Venue Manager Dashboard</h2>
         <p>Welcome back, <strong>{userName}</strong></p>
       </header>
       <div className="dashboard-content">
         <section className="manager-venues">
           <div className="venues-header">
-            <h3>Your Venues</h3>
+            <h2>Your Venues</h2>
             <button className="btn-create-venue" onClick={handleCreateNew}>
               <i className="bi bi-plus-circle"></i> Create New Venue
             </button>
