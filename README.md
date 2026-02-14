@@ -1,73 +1,59 @@
-# React + TypeScript + Vite
+# Project Title: Holidaze
+An accomodation and venue booking site built with React and Typescript, allowing users to view venues, customers to book venues, and venue managers to manager their venues.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Key features
+### All users:
+  -**Browse venues**
+  -**Search**
+  -**View calendar**
+  -**Login**
+  -**Register**
 
-Currently, two official plugins are available:
+### Customers:
+  -**Edit profile**
+  -**Make bookings**
+  -**Manage bookings**
+  
+### Venue managers:
+  -**Edit profile**
+  -**CRUD venues**
+  -**Venue management**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Built with
+  -**Framework:** React 18+ with Vite
+  -**Language:** Typescript
+  -**Styling:** Bootstrap 5 and CSS
+  -**State management:** React Hooks
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting started
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Clone the repository
+```bash
+git clone https://github.com/vicbro00/Exam-Project-2`
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Install dependencies
+```bash
+'npm install'
 ```
+
+### 3. Environement setup
+'Create a .env file in the root directory'
+'Add api key here: VITE_NOROFF_API_KEY='your_api_key_here'
+
+###4. Run the app
+```bash
+'npm run dev'
+```
+
+### AI Log
+  -**Tools: Gemini, ChatGPT
+  -**Usage: Used for brainstorming project structure, assisting with Typescript and React errors, and refining comments and JSDocs documentation.
+  -**Attribution: All logic was reviewed and implemented manually to ensure it meets the project requirements.
+
+### Testing and validation
+  -**HTML: Validated via W3C validator
+  -**Accessibility: Checked via WAVE Evaluation Tool
+  -**Performance: Audited via Google Lighthouse
