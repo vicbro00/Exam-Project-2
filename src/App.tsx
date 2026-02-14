@@ -8,8 +8,8 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/header/Header';
 import Footer from './components/Footer';
 
-import RegisterPage from './pages/register/Register';
-import LoginPage from './pages/login/Login';
+import RegisterPage from './pages/register/RegisterPage';
+import LoginPage from './pages/login/LoginPage';
 import VenuesPage from './pages/venues/Venues';
 import VenuesDetails from './pages/venues-details/VenuesDetails';
 import CustomerDashboard from './pages/customer-dashboard/CustomerDashboard';
