@@ -1,7 +1,7 @@
 .venue-search {
   margin: 2em auto;
   display: flex;
-  background-color: #4F8EF7;
+  background-color: #0056D2;
   color: white;
   border: none;
   border-radius: 25px;
@@ -31,7 +31,7 @@ input::placeholder {
   position: absolute;
   top: 110%;
   right: 0;
-  background-color: #4F8EF7;
+  background-color: #0056D2;
   border: none;
   border-radius: 5px;
   padding: 5px;
@@ -39,7 +39,7 @@ input::placeholder {
 }
 
 .filter-dropdown option, select {
-  background-color: #4F8EF7;
+  background-color: #0056D2;
   color: white;
 }
 

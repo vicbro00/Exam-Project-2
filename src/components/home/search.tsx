@@ -23,6 +23,7 @@ export default function Search({ value, onChange, filter, onFilterChange }: Sear
     <div className="search-wrapper">
       <div className="search-input">
         <input
+          aria-label="Search venues"
           type="text"
           placeholder="Search venues..."
           value={value}

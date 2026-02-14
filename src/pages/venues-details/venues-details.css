@@ -27,7 +27,7 @@
 }
 
 .react-calendar__tile.booked {
-  background-color: #4F8EF7;
+  background-color: #0056D2;
   color: white;
   border-radius: 50%;
 }
@@ -50,7 +50,7 @@
   display: block;
   width: 6px;
   height: 6px;
-  background-color: #4F8EF7;
+  background-color: #0056D2;
   border-radius: 50%;
   margin: 2px auto 0 auto;
 }
@@ -82,7 +82,7 @@
 }
 
 .legend-dot.available {
-  background-color: #4F8EF7;
+  background-color: #0056D2;
 }
 
 .legend.dot.booked {

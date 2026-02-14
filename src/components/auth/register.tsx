@@ -60,6 +60,7 @@ export function RegisterForm() {
         <form className="register-input" onSubmit={handleSubmit}>
       Name:
       <input
+        aria-label="Name"
         type="text"
         name="name"
         placeholder="Name.."
@@ -68,6 +69,7 @@ export function RegisterForm() {
       />
       Email:
       <input
+        aria-label="Email"
         type="email"
         name="email"
         placeholder="Email.."
@@ -76,6 +78,7 @@ export function RegisterForm() {
       />
       Password:
       <input
+        aria-label="Password"
         type="password"
         name="password"
         placeholder="Password.."
