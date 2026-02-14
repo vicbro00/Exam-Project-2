@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { RegisterForm } from "../../components/auth/Register.tsx";
+import { RegisterForm } from "../../components/auth/Register";
 import { Link, useNavigate } from "react-router-dom";
 import { isLoggedIn } from "../../services/auth.ts";
 import "./register.css";

@@ -1,6 +1,6 @@
 import "./header.css";
-import Navbar from "./NavBar.tsx";
-import ProfileHeader from "./ProfileHeader.tsx";
+import Navbar from "./NavBar";
+import ProfileHeader from "./ProfileHeader";
 
 function Header() {
   return (
