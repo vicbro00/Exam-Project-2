@@ -75,7 +75,7 @@ export default function VenueDetailsPage() {
   }
 
   return (
-    <main className="venue-details-container">
+    <div className="venue-details-container">
       <VenueCard {...venue} variant="detail" />
       <section className="booking-section">
         <VenueCalendar 
@@ -92,6 +92,6 @@ export default function VenueDetailsPage() {
           selectedDateTo={selectedDateTo}
         />
       </section>
-    </main>
+    </div>
   );
 }

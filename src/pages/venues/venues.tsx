@@ -73,7 +73,7 @@ export default function Venues() {
   const goToPage = (pageNum: number) => setPage(pageNum);
 
   return (
-    <main className="venues-page">
+    <div className="venues-page">
       <Search
         value={search}
         onChange={setSearch}
@@ -131,6 +131,6 @@ export default function Venues() {
           </div>
         </>
       )}
-    </main>
+    </div>
   );
 }

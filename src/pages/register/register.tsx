@@ -15,7 +15,7 @@ export default function RegisterPage() {
   }, [navigate]);
 
   return (
-    <main className="auth-page-wrapper">
+    <div className="auth-page-wrapper">
       <section className="register-container">
         <h1 className="register-title">Sign up</h1>
         <div className="register-form-wrapper">
@@ -30,6 +30,6 @@ export default function RegisterPage() {
           </p>
         </footer>
       </section>
-    </main>
+    </div>
   );
 }

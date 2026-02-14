@@ -64,8 +64,8 @@ export default function ProfilePage() {
   if (!profile) return <div className="profile-error-container">Profile not found</div>;
 
   return (
-    <main className="profile-page-wrapper">
+    <div className="profile-page-wrapper">
       <Profile profile={profile} />
-    </main>
+    </div>
   );
 }

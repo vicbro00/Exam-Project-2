@@ -15,7 +15,7 @@ export default function LoginPage() {
   }, [navigate]);
 
   return (
-    <main className="login-page-wrapper">
+    <div className="login-page-wrapper">
       <section className="login-container">
         <h1 className="login-title">Sign in</h1>
         <div className="login-form-content">
@@ -30,6 +30,6 @@ export default function LoginPage() {
           </p>
         </footer>
       </section>
-    </main>
+    </div>
   );
 }
