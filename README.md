@@ -3,27 +3,27 @@ An accomodation and venue booking site built with React and Typescript, allowing
 
 ## Key features
 ### All users:
-  **Browse venues**
-  **Search**
-  **View calendar**
-  **Login**
-  **Register**
+  - **Browse venues**
+  - **Search**
+  - **View calendar**
+  - **Login**
+  - **Register**
 
 ### Customers:
-  **Edit profile**
-  **Make bookings**
-  **Manage bookings**
+  - **Edit profile**
+  - **Make bookings**
+  - **Manage bookings**
   
 ### Venue managers:
-  **Edit profile**
-  **CRUD venues**
-  **Venue management**
+  - **Edit profile**
+  - **CRUD venues**
+  - **Venue management**
 
 ## Built with
-  **Framework:** React 18+ with Vite
-  **Language:** Typescript
-  **Styling:** Bootstrap 5 and CSS
-  **State management:** React Hooks
+  - **Framework:** React 18+ with Vite
+  - **Language:** Typescript
+  - **Styling:** Bootstrap 5 and CSS
+  - **State management:** React Hooks
 
 ---
 
@@ -49,11 +49,11 @@ git clone https://github.com/vicbro00/Exam-Project-2`
 ```
 
 ### AI Log
-  **Tools: Gemini, ChatGPT
-  **Usage: Used for brainstorming project structure, assisting with Typescript and React errors, and refining comments and JSDocs documentation.
-  **Attribution: All logic was reviewed and implemented manually to ensure it meets the project requirements.
+  - **Tools: Gemini, ChatGPT
+  - **Usage: Used for brainstorming project structure, assisting with Typescript and React errors, and refining comments and JSDocs documentation.
+  - **Attribution: All logic was reviewed and implemented manually to ensure it meets the project requirements.
 
 ### Testing and validation
-  **HTML: Validated via W3C validator
-  **Accessibility: Checked via WAVE Evaluation Tool
-  **Performance: Audited via Google Lighthouse
+  - **HTML: Validated via W3C validator
+  - **Accessibility: Checked via WAVE Evaluation Tool
+  - **Performance: Audited via Google Lighthouse
