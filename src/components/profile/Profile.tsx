@@ -50,7 +50,6 @@ export default function Profile({ profile }: ProfileProps) {
 
       setCurrentProfile(data.data || data); 
       setIsEditing(false);
-      toast.success("Profile updated!");
     } catch (err) {
       console.error("Profile Update Error:", err);
       toast.error(err instanceof Error ? err.message : "An error occurred");
