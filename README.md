@@ -49,11 +49,11 @@ git clone https://github.com/vicbro00/Exam-Project-2`
 ```
 
 ### AI Log
-  - **Tools: Gemini, ChatGPT
-  - **Usage: Used for brainstorming project structure, assisting with Typescript and React errors, and refining comments and JSDocs documentation.
-  - **Attribution: All logic was reviewed and implemented manually to ensure it meets the project requirements.
+  - **Tools: Gemini, ChatGPT**
+  - **Usage: Used for brainstorming project structure, assisting with Typescript and React errors, and refining comments and JSDocs documentation.**
+  - **Attribution: All logic was reviewed and implemented manually to ensure it meets the project requirements.**
 
 ### Testing and validation
-  - **HTML: Validated via W3C validator
-  - **Accessibility: Checked via WAVE Evaluation Tool
-  - **Performance: Audited via Google Lighthouse
+  - **HTML: Validated via W3C validator**
+  - **Accessibility: Checked via WAVE Evaluation Tool**
+  - **Performance: Audited via Google Lighthouse**
