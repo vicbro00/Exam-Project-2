@@ -1,6 +1,13 @@
 # Project Title: Holidaze
 An accomodation and venue booking site built with React and Typescript, allowing users to view venues, customers to book venues, and venue managers to manager their venues.
 
+## Links
+- Live Website:
+https://examproject2vicbro.netlify.app/
+
+- Figma:
+https://www.figma.com/design/684OtQKmDO8arCR77hjtxe/Exam-Project-2?node-id=0-1&p=f&t=2crcX0h749lHoP1p-0
+
 ## Key features
 ### All users:
   - **Browse venues**
