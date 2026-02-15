@@ -1,0 +1,30 @@
+Reflection Project Exam 2 Victoria Brown
+
+Contributions
+As the developer for this Project I created the UI/UX design if Figma and implemented it in designing the webpage as well. Then implemented a React app using Vite and Typescript, including Bootstrap. 
+Challenges
+The most significant challenge was implementing Role-based authentication to distinguish between customer and venue manager user stories. I had to ensure only the venue manager could use the CRUD operations. So I solved this by using condition logic that checks the user's profile and login info, so then the UI only showed what was needed for the specific role.
+
+Successes
+I did the Lighthouse check in google, and initially had a very low score. So I fixed images, as they are usually the culprit because of their large sizes, by making them smaller and more compressed. This improved the loading status tremendously. 
+
+Adaptations
+During this project I managed to use my existing Front End skills to make a modern and responsive website. Instead of using Vanilla Javascript, Typescript was being used instead, also being a lot easier than Javacsript in my opinion. As well as naming all the function files correctly with CamelCase, and not lowercase naming. 
+
+Personal highlights
+I found it quite interesting to be able to use React in such ways, as I previously haven't used it that much. For example being able to render a calendar using React and implement booking and styling for it. I also really like styling and implementing toast notifications. It's just a small and simple step to do, but makes the site come alive.
+
+
+Links
+GitHub Project Board:
+•	https://github.com/users/vicbro00/projects/14
+GitHub RoadMap View:
+•	https://github.com/users/vicbro00/projects/14/views/4
+Figma Styleguide:
+•	https://www.figma.com/design/684OtQKmDO8arCR77hjtxe/Exam-Project-2?node-id=1-3
+Figma Design:
+•	https://www.figma.com/design/684OtQKmDO8arCR77hjtxe/Exam-Project-2?node-id=1-2
+GitHub Repository:
+•	https://github.com/vicbro00/Exam-Project-2
+Netlify Live Page:
+•	https://examproject2vicbro.netlify.app/
