@@ -28,18 +28,23 @@ export default function VenueCard(props: VenueProps) {
   // Uses a placeholder image incase venue doesn't have a media url
   const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1615800098779-1be32e60cca3?q=80&w=710&auto=format&fit=crop";
 
+  const imageUrl = media?.[0]?.url || PLACEHOLDER_IMAGE;
+  const optimizedImage = imageUrl.includes("unsplash.com") 
+    ? `${imageUrl}&w=600&q=80&auto=format` 
+    : imageUrl;
+
   return (
     <div className={`venue-card ${variant}`}>
       <h2 className="venue-title">{name}</h2>
       
       {media && media.length > 0 && (
         <img 
-          src={media[0].url} 
-          alt={media[0].alt || name} 
+          src={optimizedImage} 
+          alt={media?.[0]?.alt || name} 
           loading="lazy"
           width="600"
           height="400"
-          style={{ objectFit: 'cover' }}
+          className="venue-card-img"
           onError={(e) => (e.currentTarget.src = PLACEHOLDER_IMAGE)}
         />
       )}
