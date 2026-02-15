@@ -36,6 +36,10 @@ export default function VenueCard(props: VenueProps) {
         <img 
           src={media[0].url} 
           alt={media[0].alt || name} 
+          loading="lazy"
+          width="600"
+          height="400"
+          style={{ objectFit: 'cover' }}
           onError={(e) => (e.currentTarget.src = PLACEHOLDER_IMAGE)}
         />
       )}
