@@ -1,5 +1,8 @@
 # Project Title: Holidaze
-An accomodation and venue booking site built with React and Typescript, allowing users to view venues, customers to book venues, and venue managers to manager their venues.
+An accommodation and venue booking site built with React and Typescript, allowing users to view venues, customers to book venues, and venue managers to manage their venues.
+
+## Screenshot
+![Home page](./screenshots/Exam%20project%202%20preview.png)
 
 ## Links
 - Live Website:
@@ -38,21 +41,21 @@ https://www.figma.com/design/684OtQKmDO8arCR77hjtxe/Exam-Project-2?node-id=0-1&p
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/vicbro00/Exam-Project-2`
+git clone https://github.com/vicbro00/Exam-Project-2
 ```
 
 ### 2. Install dependencies
 ```bash
-'npm install'
+npm install
 ```
 
-### 3. Environement setup
-'Create a .env file in the root directory'
-'Add api key here: VITE_NOROFF_API_KEY='your_api_key_here'
+### 3. Environment setup
+Create a `.env` file in the root directory and add your api key here: 
+`VITE_NOROFF_API_KEY=your_api_key_here`
 
 ### 4. Run the app
 ```bash
-'npm run dev'
+npm run dev
 ```
 
 ### AI Log
@@ -64,3 +67,18 @@ git clone https://github.com/vicbro00/Exam-Project-2`
   - **HTML: Validated via W3C validator**
   - **Accessibility: Checked via WAVE Evaluation Tool**
   - **Performance: Audited via Google Lighthouse**
+
+
+## Reflection
+
+### Challenges
+
+The most significant challenge was implementing Role-based authentication to distinguish between customer and venue manager user stories. I had to ensure only the venue manager could use the CRUD operations. So I solved this by using condition logic that checks the user's profile and login info, so then the UI only showed what was needed for the specific role.
+
+### Successes
+
+I did the Lighthouse check in google, and initially had a very low score. So I fixed images, as they are usually the culprit because of their large sizes, by making them smaller and more compressed. This improved the loading status tremendously. 
+
+### Personal highlights
+
+I found it quite interesting to be able to use React in such ways, as I previously haven't used it that much. For example being able to render a calendar using React and implement booking and styling for it. I also really like styling and implementing toast notifications. It's just a small and simple step to do, but makes the site come alive.
