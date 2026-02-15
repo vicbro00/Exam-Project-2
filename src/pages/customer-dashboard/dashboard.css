@@ -22,11 +22,20 @@
 }
 
 .booking-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
   background-color: #F5F3EF;
+  border-radius: 25px;
+}
+
+.booking-details button {
+  margin: 1em;
 }
 
 .dashboard-container img {
   width: 14em;
+  border-radius: 25px;
 }
 
 .dashboard-header {

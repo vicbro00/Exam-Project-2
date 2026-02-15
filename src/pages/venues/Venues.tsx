@@ -86,7 +86,7 @@ export default function Venues() {
         <>
           {filteredVenues.length === 0 ? (
             <div className="no-results">
-              <p>No venues match your search. Try a different term!</p>
+              <p>No venues match your search!</p>
             </div>
           ) : (
             <div className="venues-grid">
