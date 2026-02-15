@@ -89,6 +89,15 @@
   background-color: #F44336;
 }
 
+.error-container {
+  text-align: center;
+  margin: 1em;
+}
+
+.error-container button {
+  margin: auto;
+}
+
 form button {
   display: flex;
   margin: 2rem auto;
