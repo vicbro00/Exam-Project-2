@@ -42,6 +42,7 @@ export default function VenueCard(props: VenueProps) {
           src={optimizedImage} 
           alt={media?.[0]?.alt || name} 
           loading="lazy"
+          fetchPriority="high"
           width="600"
           height="400"
           className="venue-card-img"
